@@ -7,9 +7,12 @@
   "author": "pedrohcms",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js --ignore __tests__",
+    "pretest": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "test": "jest"
   },
   "devDependencies": {
+    "jest": "^25.5.4",
     "nodemon": "^2.0.3",
     "sequelize-cli": "^5.5.1"
   },
