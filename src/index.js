@@ -1,10 +1,5 @@
 require("dotenv").config();
-const express = require("express");
 
-const app = express();
-
-app.get("/", (req, res) => {
-  return res.send("Hello World");
-});
+const app = require("./App");
 
 app.listen(3333);
