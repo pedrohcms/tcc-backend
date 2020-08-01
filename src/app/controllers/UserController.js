@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const uniqueEmailValidator = require("../utils/uniqueEmailValidator");
+const { hash } = require("../utils/encryption");
 
 /**
  * Class responsible for handling User CRUD
@@ -70,7 +71,7 @@ class UserController {
       data: {
         name,
         email,
-        password,
+        password: hash("sha256", password, "hex"),
       },
     });
 
@@ -104,7 +105,7 @@ class UserController {
     const { name, email, password } = req.body;
 
     // If sent email is the same as the database email then skip this validation
-    if (!email === user.email) {
+    if (email !== user.email) {
       // Call email validation
       if (!(await uniqueEmailValidator(email))) {
         return res.status(400).json({
@@ -117,7 +118,7 @@ class UserController {
       data: {
         name,
         email,
-        password,
+        password: hash("sha256", password, "hex"),
       },
       where: {
         id,

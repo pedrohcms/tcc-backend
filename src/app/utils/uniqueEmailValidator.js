@@ -7,7 +7,7 @@ const { PrismaClient } = require("@prisma/client");
  *
  * @param {String} email
  *
- * @returns Boolean
+ * @returns {Boolean}
  *
  * @author Pedro Henrique Correa Mota da Silva
  */
