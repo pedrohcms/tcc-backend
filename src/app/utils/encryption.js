@@ -9,7 +9,7 @@ module.exports = {
    * @param {string} text
    * @param {string} exit_type
    *
-   * @returns {string}
+   * @returns {string} hash
    *
    * @author Pedro Henrique Correa Mota da Silva
    */

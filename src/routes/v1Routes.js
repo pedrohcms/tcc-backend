@@ -2,6 +2,7 @@ const { Router } = require("express");
 
 // Controllers import
 const UserController = require("../app/controllers/UserController");
+const LoginController = require("../app/controllers/LoginController");
 
 // Validators import
 const userBodyValidator = require("../app/validators/userBodyValidator");
@@ -26,5 +27,8 @@ v1Routes.put(
   userBodyValidator,
   UserController.update.bind(UserController)
 );
+
+// Routes for LoginController
+v1Routes.post("/login", LoginController.store.bind(LoginController));
 
 module.exports = v1Routes;

@@ -8,7 +8,6 @@ const { hash } = require("../utils/encryption");
  *
  * @author Pedro Henrique Correa Mota da Silva
  */
-
 class UserController {
   /**
    * @constructor
