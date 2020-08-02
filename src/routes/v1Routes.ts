@@ -1,12 +1,9 @@
-const { Router } = require("express");
+import { Router } from "express";
+import UserController from "../app/controllers/UserController";
+import LoginController from "../app/controllers/LoginController";
 
-// Controllers import
-const UserController = require("../app/controllers/UserController");
-const LoginController = require("../app/controllers/LoginController");
-
-// Validators import
-const userBodyValidator = require("../app/validators/userBodyValidator");
-const idValidator = require("../app/validators/idValidator");
+import idValidator from "../app/validators/idValidator";
+import userBodyValidator from "../app/validators/userBodyValidator";
 
 const v1Routes = Router();
 
@@ -31,4 +28,4 @@ v1Routes.put(
 // Routes for LoginController
 v1Routes.post("/login", LoginController.store.bind(LoginController));
 
-module.exports = v1Routes;
+export default v1Routes;

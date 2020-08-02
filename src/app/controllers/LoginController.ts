@@ -1,6 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
-const { hash } = require("../utils/encryption");
-const { generateToken } = require("../utils/jwt");
+import { PrismaClient } from "@prisma/client";
+import hash from "../utils/encryption";
+import generateToken from "../utils/jwt";
+import { Request, Response } from "express";
 
 /**
  * Class responsible for handling Login operation
@@ -9,23 +10,17 @@ const { generateToken } = require("../utils/jwt");
  * @author Pedro Henrique Correa Mota da Silva
  */
 class LoginController {
-  /**
-   * @constructor
-   */
+  private prisma: PrismaClient;
+
   constructor() {
     this.prisma = new PrismaClient();
   }
-
   /**
    * This method create the JWT token if information is valid
-   * @method store
-   *
-   * @param {Request} req
-   * @param {Response} res
    *
    * @author Pedro Henrique Correa Mota da Silva
    */
-  async store(req, res) {
+  async store(req: Request, res: Response) {
     const { email, password } = req.body;
 
     const user = await this.prisma.users.findOne({
@@ -45,13 +40,13 @@ class LoginController {
       });
     }
 
-    if (user.password !== hash("sha256", password, "hex")) {
+    if (user.password !== hash("sha256", password)) {
       return res.status(400).json({
         error: "Invalid password",
       });
     }
 
-    const token = generateToken(user.id);
+    const token = generateToken(String(user.id));
 
     return res.status(200).json({
       token,
@@ -59,4 +54,4 @@ class LoginController {
   }
 }
 
-module.exports = new LoginController();
+export default new LoginController();

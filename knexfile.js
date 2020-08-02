@@ -1,5 +1,6 @@
 // Update with your config settings.
 require("dotenv").config();
+require("ts-node/register");
 const path = require("path");
 
 module.exports = {

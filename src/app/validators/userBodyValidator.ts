@@ -1,6 +1,6 @@
-const { celebrate, Joi, Segments } = require("celebrate");
+import { celebrate, Joi, Segments } from "celebrate";
 
-module.exports = celebrate(
+export default celebrate(
   {
     [Segments.BODY]: Joi.object().keys({
       name: Joi.string().required(),

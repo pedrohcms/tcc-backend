@@ -1,6 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
-const uniqueEmailValidator = require("../utils/uniqueEmailValidator");
-const { hash } = require("../utils/encryption");
+import { PrismaClient } from "@prisma/client";
+import { Request, Response } from "express";
+import uniqueEmailValidator from "../utils/uniqueEmailValidator";
+import hash from "../utils/encryption";
 
 /**
  * Class responsible for handling User CRUD
@@ -9,22 +10,13 @@ const { hash } = require("../utils/encryption");
  * @author Pedro Henrique Correa Mota da Silva
  */
 class UserController {
-  /**
-   * @constructor
-   */
+  private prisma: PrismaClient;
+
   constructor() {
     this.prisma = new PrismaClient();
   }
 
-  /**
-   * @method show
-   *
-   * @param {Request} req
-   * @param {Response} res
-   *
-   * @author Pedro Henrique Correa Mota da Silva
-   */
-  async show(req, res) {
+  async show(req: Request, res: Response) {
     const id = Number(req.params.id);
 
     if (!id) {
@@ -48,15 +40,7 @@ class UserController {
     return res.status(200).json(user);
   }
 
-  /**
-   * @method store
-   *
-   * @param {Request} req
-   * @param {Response} res
-   *
-   * @author Pedro Henrique Correa Mota da Silva
-   */
-  async store(req, res) {
+  async store(req: Request, res: Response) {
     const { name, email, password } = req.body;
 
     // Call email validation
@@ -70,22 +54,14 @@ class UserController {
       data: {
         name,
         email,
-        password: hash("sha256", password, "hex"),
+        password: hash("sha256", password),
       },
     });
 
     return res.status(201).json(user);
   }
 
-  /**
-   * @method update
-   *
-   * @param {Request} req
-   * @param {Response} res
-   *
-   * @author Pedro Henrique Correa Mota da Silva
-   */
-  async update(req, res) {
+  async update(req: Request, res: Response) {
     const id = Number(req.params.id);
 
     let user = await this.prisma.users.findOne({
@@ -117,7 +93,7 @@ class UserController {
       data: {
         name,
         email,
-        password: hash("sha256", password, "hex"),
+        password: hash("sha256", password),
       },
       where: {
         id,
@@ -128,4 +104,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+export default new UserController();
