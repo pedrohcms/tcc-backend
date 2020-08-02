@@ -1,5 +1,4 @@
 import express, { Express } from "express";
-import { errors } from "celebrate";
 import v1Routes from "./routes/v1Routes";
 
 class App {
@@ -17,7 +16,6 @@ class App {
 
   middlewares() {
     this.express.use(express.json());
-    this.express.use(errors());
   }
 }
 
