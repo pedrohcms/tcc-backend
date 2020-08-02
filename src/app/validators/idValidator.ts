@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
-export default celebrate({
+export const idValidator = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.number().required(),
   }),
