@@ -1,8 +1,10 @@
-const express = require("express");
-const v1Routes = require("./routes/v1Routes");
-const { errors } = require("celebrate");
+import express, { Express } from "express";
+import { errors } from "celebrate";
+import v1Routes from "./routes/v1Routes";
 
 class App {
+  express: Express;
+
   constructor() {
     this.express = express();
     this.middlewares();
@@ -19,4 +21,4 @@ class App {
   }
 }
 
-module.exports = new App().express;
+export default new App().express;
