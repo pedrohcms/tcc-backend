@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserController from "../app/controllers/UserController";
-import LoginController from "../app/controllers/LoginController";
+import SessionController from "../app/controllers/SessionController";
 import ResetPasswordController from "../app/controllers/ResetPasswordController";
 
 import { idValidator } from "../app/validators/idValidator";
@@ -9,7 +9,7 @@ import {
   resetPasswordShowBodyValidator,
   resetPasswordStoreBodyValidator,
 } from "../app/validators/resetPasswordValidator";
-import { loginValidator } from "../app/validators/loginValidator";
+import { sessionValidator } from "../app/validators/sessionValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
 
@@ -35,9 +35,9 @@ v1Routes.put(
 
 // Routes for LoginController
 v1Routes.post(
-  "/login",
-  loginValidator,
-  LoginController.store.bind(LoginController)
+  "/sessions",
+  sessionValidator,
+  SessionController.store.bind(SessionController)
 );
 
 // Routes for ResetPasswordController

@@ -9,7 +9,7 @@ import { Request, Response } from "express";
  *
  * @author Pedro Henrique Correa Mota da Silva
  */
-class LoginController {
+class SessionController {
   private prisma: PrismaClient;
 
   constructor() {
@@ -54,4 +54,4 @@ class LoginController {
   }
 }
 
-export default new LoginController();
+export default new SessionController();

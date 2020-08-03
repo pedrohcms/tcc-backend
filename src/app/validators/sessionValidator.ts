@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
-export const loginValidator = celebrate(
+export const sessionValidator = celebrate(
   {
     [Segments.BODY]: Joi.object().keys({
       email: Joi.string().required().email(),
