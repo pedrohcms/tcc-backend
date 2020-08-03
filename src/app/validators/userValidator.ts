@@ -10,5 +10,12 @@ export const userValidator = celebrate(
   },
   {
     abortEarly: false,
+    allowUnknown: true,
+    errors: {
+      wrap: {
+        array: false,
+        label: false,
+      },
+    },
   }
 );

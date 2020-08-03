@@ -1,7 +1,18 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
-export const idValidator = celebrate({
-  [Segments.PARAMS]: Joi.object().keys({
-    id: Joi.number().required(),
-  }),
-});
+export const idValidator = celebrate(
+  {
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().required(),
+    }),
+  },
+  {
+    allowUnknown: true,
+    errors: {
+      wrap: {
+        array: false,
+        label: false,
+      },
+    },
+  }
+);

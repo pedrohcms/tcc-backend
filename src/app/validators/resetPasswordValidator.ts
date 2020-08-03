@@ -9,6 +9,13 @@ export const resetPasswordShowBodyValidator = celebrate(
   },
   {
     abortEarly: false,
+    allowUnknown: true,
+    errors: {
+      wrap: {
+        array: false,
+        label: false,
+      },
+    },
   }
 );
 
@@ -23,5 +30,12 @@ export const resetPasswordStoreBodyValidator = celebrate(
   },
   {
     abortEarly: false,
+    allowUnknown: true,
+    errors: {
+      wrap: {
+        array: false,
+        label: false,
+      },
+    },
   }
 );

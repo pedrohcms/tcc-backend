@@ -9,5 +9,12 @@ export const loginValidator = celebrate(
   },
   {
     abortEarly: false,
+    allowUnknown: true,
+    errors: {
+      wrap: {
+        array: false,
+        label: false,
+      },
+    },
   }
 );
