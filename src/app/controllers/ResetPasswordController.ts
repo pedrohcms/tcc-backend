@@ -9,9 +9,10 @@ class ResetPasswordController {
     this.prisma = new PrismaClient();
   }
 
-  async show(req: Request, res: Response) {
-    const name = req.query.name;
+  async update(req: Request, res: Response) {
     const email = String(req.query.email);
+    const { name } = req.query;
+    const { password } = req.body;
 
     const user = await this.prisma.users.findOne({
       where: {
@@ -28,25 +29,6 @@ class ResetPasswordController {
     if (user.name !== name) {
       return res.status(400).json({
         error: "Wrong name",
-      });
-    }
-
-    return res.sendStatus(200);
-  }
-
-  async store(req: Request, res: Response) {
-    const { email } = req.params;
-    const { password } = req.body;
-
-    const user = await this.prisma.users.findOne({
-      where: {
-        email,
-      },
-    });
-
-    if (!user) {
-      return res.status(400).json({
-        error: "User not found",
       });
     }
 

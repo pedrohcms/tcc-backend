@@ -5,10 +5,7 @@ import ResetPasswordController from "../app/controllers/ResetPasswordController"
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
-import {
-  resetPasswordShowBodyValidator,
-  resetPasswordStoreBodyValidator,
-} from "../app/validators/resetPasswordValidator";
+import { resetPasswordValidator } from "../app/validators/resetPasswordValidator";
 import { sessionValidator } from "../app/validators/sessionValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
@@ -41,16 +38,10 @@ v1Routes.post(
 );
 
 // Routes for ResetPasswordController
-v1Routes.get(
+v1Routes.put(
   "/reset_password",
-  resetPasswordShowBodyValidator,
-  ResetPasswordController.show.bind(ResetPasswordController)
-);
-
-v1Routes.post(
-  "/reset_password/:email",
-  resetPasswordStoreBodyValidator,
-  ResetPasswordController.store.bind(ResetPasswordController)
+  resetPasswordValidator,
+  ResetPasswordController.update.bind(ResetPasswordController)
 );
 
 v1Routes.use(errors);
