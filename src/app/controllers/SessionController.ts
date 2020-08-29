@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 
 /**
  * Class responsible for handling Login operation
- * @class LoginController
+ * @class SessionController
  *
  * @author Pedro Henrique Correa Mota da Silva
  */

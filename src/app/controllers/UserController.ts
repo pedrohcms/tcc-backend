@@ -10,20 +10,14 @@ import hash from "../utils/encryption";
  * @author Pedro Henrique Correa Mota da Silva
  */
 class UserController {
-  private prisma: PrismaClient;
+  private prisma = new PrismaClient();
 
   constructor() {
-    this.prisma = new PrismaClient();
+    //this.prisma = new PrismaClient();
   }
 
   async show(req: Request, res: Response) {
     const id = Number(req.params.id);
-
-    if (!id) {
-      return res.status(400).json({
-        error: "Missing id",
-      });
-    }
 
     const user = await this.prisma.users.findOne({
       where: {

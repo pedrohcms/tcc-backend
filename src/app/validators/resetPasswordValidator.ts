@@ -2,12 +2,12 @@ import { celebrate, Segments, Joi } from "celebrate";
 
 export const resetPasswordValidator = celebrate(
   {
-    [Segments.QUERY]: Joi.object().keys({
-      name: Joi.string().required(),
+    [Segments.PARAMS]: Joi.object().keys({
       email: Joi.string().required().email(),
     }),
     [Segments.BODY]: Joi.object().keys({
       password: Joi.string().required(),
+      confirm_password: Joi.string().required(),
     }),
   },
   {

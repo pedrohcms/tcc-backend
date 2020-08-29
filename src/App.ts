@@ -11,7 +11,7 @@ class App {
   }
 
   routes() {
-    this.express.use(v1Routes);
+    this.express.use("/v1", v1Routes);
   }
 
   middlewares() {

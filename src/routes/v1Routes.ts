@@ -30,7 +30,7 @@ v1Routes.put(
   UserController.update.bind(UserController)
 );
 
-// Routes for LoginController
+// Routes for SessionController
 v1Routes.post(
   "/sessions",
   sessionValidator,
@@ -38,10 +38,10 @@ v1Routes.post(
 );
 
 // Routes for ResetPasswordController
-v1Routes.put(
-  "/reset_password",
+v1Routes.post(
+  "/reset_passwords/:email",
   resetPasswordValidator,
-  ResetPasswordController.update.bind(ResetPasswordController)
+  ResetPasswordController.store.bind(ResetPasswordController)
 );
 
 v1Routes.use(errors);

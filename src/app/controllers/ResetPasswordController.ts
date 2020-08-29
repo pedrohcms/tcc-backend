@@ -2,6 +2,12 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
 
+/**
+ * Class responsible for handling password reset operations
+ * @class ResetPasswordController
+ *
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class ResetPasswordController {
   private prisma: PrismaClient;
 
@@ -9,10 +15,9 @@ class ResetPasswordController {
     this.prisma = new PrismaClient();
   }
 
-  async update(req: Request, res: Response) {
-    const email = String(req.query.email);
-    const { name } = req.query;
-    const { password } = req.body;
+  async store(req: Request, res: Response) {
+    const email = String(req.params.email);
+    const { password, confirm_password } = req.body;
 
     const user = await this.prisma.users.findOne({
       where: {
@@ -26,9 +31,9 @@ class ResetPasswordController {
       });
     }
 
-    if (user.name !== name) {
+    if (password != confirm_password) {
       return res.status(400).json({
-        error: "Wrong name",
+        error: "Password values does not match",
       });
     }
 
