@@ -11,7 +11,6 @@ module.exports = {
       directory: path.resolve(
         __dirname,
         "src",
-        "app",
         "database",
         "migrations"
       ),
