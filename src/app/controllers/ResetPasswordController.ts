@@ -27,13 +27,13 @@ class ResetPasswordController {
 
     if (!user) {
       return res.status(400).json({
-        error: "User not found",
+        error: res.__("User not found"),
       });
     }
 
     if (password != confirm_password) {
       return res.status(400).json({
-        error: "Password values does not match",
+        error: res.__("Password values does not match"),
       });
     }
 

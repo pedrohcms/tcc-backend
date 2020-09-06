@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import v1Routes from "./routes/v1Routes";
+import I18n from "./config/i18n";
 
 class App {
   express: Express;
@@ -16,6 +17,7 @@ class App {
 
   middlewares() {
     this.express.use(express.json());
+    this.express.use(I18n.init);
   }
 }
 

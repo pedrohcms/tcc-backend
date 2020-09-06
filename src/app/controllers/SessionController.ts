@@ -37,13 +37,13 @@ class SessionController {
 
     if (!user) {
       return res.status(400).json({
-        error: "User not found",
+        error: res.__("User not found"),
       });
     }
 
     if (user.password !== hash("sha256", password)) {
       return res.status(400).json({
-        error: "Invalid password",
+        error: res.__("Invalid password"),
       });
     }
 

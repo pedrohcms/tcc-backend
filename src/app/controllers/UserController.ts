@@ -10,10 +10,10 @@ import hash from "../utils/encryption";
  * @author Pedro Henrique Correa Mota da Silva
  */
 class UserController {
-  private prisma = new PrismaClient();
+  private prisma: PrismaClient;
 
   constructor() {
-    //this.prisma = new PrismaClient();
+    this.prisma = new PrismaClient();
   }
 
   async show(req: Request, res: Response) {
@@ -23,11 +23,17 @@ class UserController {
       where: {
         id,
       },
+      select: {
+        name: true,
+        email: true,
+        created_at: true,
+        updated_at: true,
+      },
     });
 
     if (!user) {
-      return res.status(404).json({
-        error: "User not found",
+      return res.status(400).json({
+        error: res.__("User not found"),
       });
     }
 
@@ -40,7 +46,7 @@ class UserController {
     // Call email validation
     if (!(await uniqueEmailValidator(email))) {
       return res.status(400).json({
-        error: "Email already in use",
+        error: res.__("Email already in use"),
       });
     }
 
@@ -67,7 +73,7 @@ class UserController {
     // Check if user exists
     if (!user) {
       return res.status(404).json({
-        error: "User not found",
+        error: res.__("User not found"),
       });
     }
 
@@ -78,7 +84,7 @@ class UserController {
       // Call email validation
       if (!(await uniqueEmailValidator(email))) {
         return res.status(400).json({
-          error: "Email already in use",
+          error: res.__("Email already in use"),
         });
       }
     }
