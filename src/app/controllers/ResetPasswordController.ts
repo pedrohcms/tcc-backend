@@ -37,7 +37,7 @@ class ResetPasswordController {
       });
     }
 
-    this.prisma.users.update({
+    await this.prisma.users.update({
       data: {
         password: hash("sha256", password),
       },
