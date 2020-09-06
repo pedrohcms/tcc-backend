@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
-import generateToken from "../utils/jwt";
+import { generateToken, verifyToken } from "../utils/jwt";
 import { Request, Response } from "express";
 
 /**
@@ -31,6 +31,7 @@ class SessionController {
         id: true,
         email: true,
         password: true,
+        token: true,
       },
     });
 
@@ -46,7 +47,30 @@ class SessionController {
       });
     }
 
-    const token = generateToken(String(user.id));
+    let token;
+
+    // IF USER ALREADY HAS A TOKEN WHE TRY TO VALIDATE/GENERATE ONE AND SEND IT BACK
+    if (user.token) {
+      try {
+        verifyToken(user.token);
+
+        token = user.token;
+      } catch (e) {
+        token = generateToken(String(user.id));
+      }
+    } else {
+      token = generateToken(String(user.id));
+    }
+
+    // UPDATING THE USER TOKEN
+    await this.prisma.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        token,
+      },
+    });
 
     return res.status(200).json({
       token,
