@@ -20,11 +20,19 @@ model knex_migrations_lock {
 }
 
 model users {
-  id         Int      @default(autoincrement()) @id
-  name       String
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-  token      String?
+  id            Int           @default(autoincrement()) @id
+  name          String
+  email         String        @unique
+  password      String
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @default(now())
+  token         String?
+  profile_id    Int           @default(1)
+  user_profiles user_profiles @relation(fields: [profile_id], references: [id])
+}
+
+model user_profiles {
+  id           Int     @default(autoincrement()) @id
+  profile_name String
+  users        users[]
 }
