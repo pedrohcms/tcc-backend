@@ -1,6 +1,7 @@
 import {
   sign,
   verify,
+  decode,
   TokenExpiredError,
   JsonWebTokenError,
   NotBeforeError,
@@ -13,8 +14,6 @@ import {
  */
 export function generateToken(payload: string) {
   const secret = String(process.env.APP_SECRET);
-
-  payload = String(payload);
 
   const token = sign(
     {
@@ -31,8 +30,12 @@ export function generateToken(payload: string) {
 
 export function verifyToken(
   token: string
-): TokenExpiredError | JsonWebTokenError | NotBeforeError | void {
+): TokenExpiredError | JsonWebTokenError | NotBeforeError | object {
   const secret = String(process.env.APP_SECRET);
 
-  verify(token, secret);
+  const decoded = verify(token, secret, {
+    complete: false,
+  });
+
+  return Object.values(decoded)[0];
 }

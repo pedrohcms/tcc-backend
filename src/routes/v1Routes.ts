@@ -2,11 +2,14 @@ import { Router } from "express";
 import UserController from "../app/controllers/UserController";
 import SessionController from "../app/controllers/SessionController";
 import ResetPasswordController from "../app/controllers/ResetPasswordController";
+import FarmController from "../app/controllers/FarmController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
 import { resetPasswordValidator } from "../app/validators/resetPasswordValidator";
 import { sessionValidator } from "../app/validators/sessionValidator";
+import { farmValidator } from "../app/validators/farmValidator";
+import { tokenValidator } from "../app/validators/tokenValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
 
@@ -42,6 +45,13 @@ v1Routes.post(
   "/reset_passwords/:email",
   resetPasswordValidator,
   ResetPasswordController.store.bind(ResetPasswordController)
+);
+
+v1Routes.post(
+  "/farms",
+  tokenValidator,
+  farmValidator,
+  FarmController.store.bind(FarmController)
 );
 
 v1Routes.use(errors);

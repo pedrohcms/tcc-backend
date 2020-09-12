@@ -2,5 +2,6 @@
   "User not found": "Usuário não encontrado",
   "Invalid password": "Senha incorreta",
   "Email already in use": "O email já está sendo usado",
-  "Password values does not match": "Os valores de senha devem ser iguais"
+  "Password values does not match": "Os valores de senha devem ser iguais",
+  "Address already in use": "O endereço já está sendo usado"
 }
