@@ -13,8 +13,23 @@ class FarmController {
     this.prisma = new PrismaClient();
   }
 
+  async index(req: Request, res: Response) {}
+
   async store(req: Request, res: Response) {
     const { user_id, name, address } = req.body;
+
+    // CHECKING IF USER EXISTS
+    const user = await this.prisma.users.findOne({
+      where: {
+        id: user_id,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        error: res.__("User not found"),
+      });
+    }
 
     // CHECKING IF USER HAS PERMISSION
     if (!profileValidator(Number(user_id), 3)) {
