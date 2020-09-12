@@ -13,7 +13,40 @@ class FarmController {
     this.prisma = new PrismaClient();
   }
 
-  async index(req: Request, res: Response) {}
+  async index(req: Request, res: Response) {
+    const user_id = Number(req.query.user_id);
+
+    // CHECKING IF USER EXISTS
+    const user = await this.prisma.users.findOne({
+      where: {
+        id: user_id,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        error: res.__("User not found"),
+      });
+    }
+
+    // GETTING ALL THE FARMS A USER IS RELATED TO
+    const farms = await this.prisma.farms.findMany({
+      where: {
+        user_farm: {
+          some: {
+            user_id,
+          },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        address: true,
+      },
+    });
+
+    return res.status(200).json(farms);
+  }
 
   async store(req: Request, res: Response) {
     const { user_id, name, address } = req.body;

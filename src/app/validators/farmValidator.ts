@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
-export const farmValidator = celebrate(
+export const farmStoreValidator = celebrate(
   {
     [Segments.BODY]: Joi.object().keys({
       user_id: Joi.number().required(),
@@ -12,3 +12,9 @@ export const farmValidator = celebrate(
     allowUnknown: true,
   }
 );
+
+export const farmIndexValidator = celebrate({
+  [Segments.QUERY]: Joi.object().keys({
+    user_id: Joi.number().required(),
+  }),
+});

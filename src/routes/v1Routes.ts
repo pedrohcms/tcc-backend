@@ -8,7 +8,10 @@ import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
 import { resetPasswordValidator } from "../app/validators/resetPasswordValidator";
 import { sessionValidator } from "../app/validators/sessionValidator";
-import { farmValidator } from "../app/validators/farmValidator";
+import {
+  farmIndexValidator,
+  farmStoreValidator,
+} from "../app/validators/farmValidator";
 import { tokenValidator } from "../app/validators/tokenValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
@@ -23,6 +26,7 @@ v1Routes.get(
 );
 v1Routes.post(
   "/users",
+  tokenValidator,
   userValidator,
   UserController.store.bind(UserController)
 );
@@ -47,10 +51,18 @@ v1Routes.post(
   ResetPasswordController.store.bind(ResetPasswordController)
 );
 
+// Routes for FarmController
+v1Routes.get(
+  "/farms",
+  tokenValidator,
+  farmIndexValidator,
+  FarmController.index.bind(FarmController)
+);
+
 v1Routes.post(
   "/farms",
   tokenValidator,
-  farmValidator,
+  farmStoreValidator,
   FarmController.store.bind(FarmController)
 );
 

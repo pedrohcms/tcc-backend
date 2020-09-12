@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import uniqueEmailValidator from "../utils/uniqueEmailValidator";
 import hash from "../utils/encryption";
+import { profileValidator } from "../validators/profileValidator";
 
 /**
  * Class responsible for handling User CRUD
@@ -41,9 +42,14 @@ class UserController {
   }
 
   async store(req: Request, res: Response) {
-    const { name, email, password } = req.body;
+    const { admin_id, name, email, password } = req.body;
 
-    // Call email validation
+    // CHECKING IF USER HAS PERMISSION
+    if (!profileValidator(admin_id, 3)) {
+      return res.sendStatus(403);
+    }
+
+    // MAKE EMAIL VALIDATION
     if (!(await uniqueEmailValidator(email))) {
       return res.status(400).json({
         error: res.__("Email already in use"),
