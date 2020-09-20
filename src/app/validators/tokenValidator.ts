@@ -22,6 +22,6 @@ export function tokenValidator(
 
     next();
   } catch (error) {
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
 }

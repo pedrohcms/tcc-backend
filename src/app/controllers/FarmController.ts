@@ -65,7 +65,7 @@ class FarmController {
     }
 
     // CHECKING IF USER HAS PERMISSION
-    if (!profileValidator(Number(user_id), 3)) {
+    if (!(await profileValidator(Number(user_id), 3))) {
       return res.sendStatus(403);
     }
 
