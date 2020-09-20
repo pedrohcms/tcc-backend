@@ -18,7 +18,7 @@ export function tokenValidator(
   const [_, token] = authorization.split("Bearer ");
 
   try {
-    verifyToken(token);
+    req.body.user_id = verifyToken(token);
 
     next();
   } catch (error) {

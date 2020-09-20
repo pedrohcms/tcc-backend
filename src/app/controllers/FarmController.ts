@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { profileValidator } from "../validators/profileValidator";
+import { userExistsValidator } from "../validators/userExistsValidator";
 
 /**
  * Class responsible for handling farm CRUD operations
@@ -14,14 +15,8 @@ class FarmController {
   }
 
   async index(req: Request, res: Response) {
-    const user_id = Number(req.query.user_id);
-
     // CHECKING IF USER EXISTS
-    const user = await this.prisma.users.findOne({
-      where: {
-        id: user_id,
-      },
-    });
+    const user = await userExistsValidator(String(req.query.user_id));
 
     if (!user) {
       return res.status(400).json({
@@ -34,7 +29,7 @@ class FarmController {
       where: {
         user_farm: {
           some: {
-            user_id,
+            user_id: user.id,
           },
         },
       },
@@ -52,11 +47,7 @@ class FarmController {
     const { user_id, name, address } = req.body;
 
     // CHECKING IF USER EXISTS
-    const user = await this.prisma.users.findOne({
-      where: {
-        id: user_id,
-      },
-    });
+    const user = await userExistsValidator(user_id);
 
     if (!user) {
       return res.status(400).json({
@@ -65,7 +56,7 @@ class FarmController {
     }
 
     // CHECKING IF USER HAS PERMISSION
-    if (!(await profileValidator(Number(user_id), 3))) {
+    if (!(await profileValidator(user.id, 3))) {
       return res.sendStatus(403);
     }
 

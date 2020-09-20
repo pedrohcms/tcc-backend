@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
 import { generateToken, verifyToken } from "../utils/jwt";
 import { Request, Response } from "express";
+import { userExistsValidator } from "../validators/userExistsValidator";
 
 /**
  * Class responsible for handling Login operation
@@ -23,17 +24,7 @@ class SessionController {
   async store(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    const user = await this.prisma.users.findOne({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-        token: true,
-      },
-    });
+    const user = await userExistsValidator(email);
 
     if (!user) {
       return res.status(400).json({

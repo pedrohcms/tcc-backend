@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import uniqueEmailValidator from "../utils/uniqueEmailValidator";
 import hash from "../utils/encryption";
 import { profileValidator } from "../validators/profileValidator";
+import { userExistsValidator } from "../validators/userExistsValidator";
 
 /**
  * Class responsible for handling User CRUD
@@ -18,19 +19,7 @@ class UserController {
   }
 
   async show(req: Request, res: Response) {
-    const id = Number(req.params.id);
-
-    const user = await this.prisma.users.findOne({
-      where: {
-        id,
-      },
-      select: {
-        name: true,
-        email: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
+    const user = await userExistsValidator(req.params.id);
 
     if (!user) {
       return res.status(400).json({
@@ -42,10 +31,10 @@ class UserController {
   }
 
   async store(req: Request, res: Response) {
-    const { admin_id, name, email, password } = req.body;
+    const { user_id, name, email, password } = req.body;
 
     // CHECKING IF USER HAS PERMISSION
-    if (!profileValidator(admin_id, 3)) {
+    if (!(await profileValidator(Number(user_id), 3))) {
       return res.sendStatus(403);
     }
 
@@ -68,19 +57,18 @@ class UserController {
   }
 
   async update(req: Request, res: Response) {
-    const id = Number(req.params.id);
-
-    let user = await this.prisma.users.findOne({
-      where: {
-        id,
-      },
-    });
+    let user = await userExistsValidator(req.params.id);
 
     // Check if user exists
     if (!user) {
       return res.status(404).json({
         error: res.__("User not found"),
       });
+    }
+
+    // CHECKING IF USER HAS PERMISSION
+    if (!(await profileValidator(Number(req.body.user_id), 3))) {
+      return res.sendStatus(403);
     }
 
     const { name, email, password } = req.body;
@@ -102,7 +90,7 @@ class UserController {
         password: hash("sha256", password),
       },
       where: {
-        id,
+        id: user.id,
       },
     });
 

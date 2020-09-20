@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
+import { userExistsValidator } from "../validators/userExistsValidator";
 
 /**
  * Class responsible for handling password reset operations
@@ -16,14 +17,9 @@ class ResetPasswordController {
   }
 
   async store(req: Request, res: Response) {
-    const email = String(req.params.email);
     const { password, confirm_password } = req.body;
 
-    const user = await this.prisma.users.findOne({
-      where: {
-        email,
-      },
-    });
+    const user = await userExistsValidator(req.params.email);
 
     if (!user) {
       return res.status(400).json({
@@ -42,7 +38,7 @@ class ResetPasswordController {
         password: hash("sha256", password),
       },
       where: {
-        email,
+        id: user.id,
       },
     });
 
