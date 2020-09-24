@@ -11,9 +11,3 @@ export const farmStoreValidator = celebrate(
     allowUnknown: true,
   }
 );
-
-export const farmIndexValidator = celebrate({
-  [Segments.QUERY]: Joi.object().keys({
-    user_id: Joi.number().required(),
-  }),
-});

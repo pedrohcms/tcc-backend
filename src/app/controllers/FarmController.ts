@@ -16,7 +16,7 @@ class FarmController {
 
   async index(req: Request, res: Response) {
     // CHECKING IF USER EXISTS
-    const user = await userExistsValidator(String(req.query.user_id));
+    const user = await userExistsValidator(req.body.user_id);
 
     if (!user) {
       return res.status(400).json({
