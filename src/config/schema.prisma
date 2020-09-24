@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://postgres:root@localhost:5432/tcc"
+  url      = env("DB_URL")
 }
 
 model knex_migrations {
