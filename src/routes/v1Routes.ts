@@ -3,6 +3,7 @@ import UserController from "../app/controllers/UserController";
 import SessionController from "../app/controllers/SessionController";
 import ResetPasswordController from "../app/controllers/ResetPasswordController";
 import FarmController from "../app/controllers/FarmController";
+import LinkUserFarmController from "../app/controllers/LinkUserFarmController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
@@ -10,6 +11,11 @@ import { resetPasswordValidator } from "../app/validators/resetPasswordValidator
 import { sessionValidator } from "../app/validators/sessionValidator";
 import { farmStoreValidator } from "../app/validators/farmValidator";
 import { tokenValidator } from "../app/validators/tokenValidator";
+import {
+  linkUserFarmDestroyValidator,
+  linkUserFarmIndexValidator,
+  linkUserFarmStoreValidator,
+} from "../app/validators/linkUserFarmValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
 
@@ -60,6 +66,28 @@ v1Routes.post(
   tokenValidator,
   farmStoreValidator,
   FarmController.store.bind(FarmController)
+);
+
+// Routes for LinkUserFarmController
+v1Routes.get(
+  "/link_user_farm",
+  tokenValidator,
+  linkUserFarmIndexValidator,
+  LinkUserFarmController.index.bind(LinkUserFarmController)
+);
+
+v1Routes.post(
+  "/link_user_farm",
+  tokenValidator,
+  linkUserFarmStoreValidator,
+  LinkUserFarmController.store.bind(LinkUserFarmController)
+);
+
+v1Routes.delete(
+  "/link_user_farm",
+  tokenValidator,
+  linkUserFarmDestroyValidator,
+  LinkUserFarmController.destroy.bind(LinkUserFarmController)
 );
 
 v1Routes.use(errors);
