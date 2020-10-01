@@ -4,6 +4,7 @@ import SessionController from "../app/controllers/SessionController";
 import ResetPasswordController from "../app/controllers/ResetPasswordController";
 import FarmController from "../app/controllers/FarmController";
 import LinkUserFarmController from "../app/controllers/LinkUserFarmController";
+import MeasurementController from "../app/controllers/MeasurementController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
@@ -16,6 +17,10 @@ import {
   linkUserFarmIndexValidator,
   linkUserFarmStoreValidator,
 } from "../app/validators/linkUserFarmValidator";
+import {
+  measurementsStoreValidator,
+  measurementsIndexValidator,
+} from "../app/validators/measurementValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
 
@@ -88,6 +93,19 @@ v1Routes.delete(
   tokenValidator,
   linkUserFarmDestroyValidator,
   LinkUserFarmController.destroy.bind(LinkUserFarmController)
+);
+
+// Routes for MeasurementController
+v1Routes.get(
+  "/measurements",
+  measurementsIndexValidator,
+  MeasurementController.index.bind(MeasurementController)
+);
+
+v1Routes.post(
+  "/measurements",
+  measurementsStoreValidator,
+  MeasurementController.store.bind(MeasurementController)
 );
 
 v1Routes.use(errors);

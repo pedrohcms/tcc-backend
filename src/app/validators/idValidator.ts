@@ -8,11 +8,5 @@ export const idValidator = celebrate(
   },
   {
     allowUnknown: true,
-    errors: {
-      wrap: {
-        array: false,
-        label: false,
-      },
-    },
   }
 );
