@@ -11,13 +11,6 @@ export const resetPasswordValidator = celebrate(
     }),
   },
   {
-    abortEarly: false,
     allowUnknown: true,
-    errors: {
-      wrap: {
-        array: false,
-        label: false,
-      },
-    },
   }
 );

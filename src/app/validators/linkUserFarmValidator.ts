@@ -3,7 +3,7 @@ import { celebrate, Segments, Joi } from "celebrate";
 export const linkUserFarmIndexValidator = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
-      farm_id: Joi.number().id().required(),
+      farm_id: Joi.number().required(),
     }),
   },
   {
@@ -26,7 +26,7 @@ export const linkUserFarmStoreValidator = celebrate(
 export const linkUserFarmDestroyValidator = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
-      user_id: Joi.number().id().required(),
+      user_id: Joi.number().required(),
       address: Joi.string().required(),
     }),
   },

@@ -8,13 +8,6 @@ export const sessionValidator = celebrate(
     }),
   },
   {
-    abortEarly: false,
     allowUnknown: true,
-    errors: {
-      wrap: {
-        array: false,
-        label: false,
-      },
-    },
   }
 );
