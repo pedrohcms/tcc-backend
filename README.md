@@ -47,3 +47,8 @@ If you don't see errors that means your connection is good to go!
 
 After you checked your connection with the database you may update your tables using the `update_database.js` script inside the `src/utils` folder, to do that you can simply run:
 `node src/utils/update_database.js` passing a argument that is same on knex, so whenever you want to run or latest migrations run the following: `node src/utils/update_database.js migrate:latest`. This will ensure that your database changes based on migrations files and update the prisma files needed in the application, in case some error occur this changes will be undone so your database stay the as before running the migrations.
+
+## Configuring API language
+
+To configure the API return language it is necessary put the `Accept-Language` header in your requests, the current possible values are `pt-BR` and `en-US`, example:
+`Accept-Language: en-US`, please note that the default value for language is `en-US`.
