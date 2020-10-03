@@ -5,6 +5,7 @@ import ResetPasswordController from "../app/controllers/ResetPasswordController"
 import FarmController from "../app/controllers/FarmController";
 import LinkUserFarmController from "../app/controllers/LinkUserFarmController";
 import MeasurementController from "../app/controllers/MeasurementController";
+import HomeController from "../app/controllers/HomeController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
@@ -107,6 +108,9 @@ v1Routes.post(
   measurementsStoreValidator,
   MeasurementController.store.bind(MeasurementController)
 );
+
+// Routes for HomeController
+v1Routes.get("/home/:id", HomeController.show.bind(HomeController));
 
 v1Routes.use(errors);
 
