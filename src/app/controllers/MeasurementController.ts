@@ -1,5 +1,6 @@
 import { measurementsCreateInput, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { getFarmMeasures } from "../utils/getFarmMeasures";
 
 /**
  * Class responsible for handling CRUD for measurement data
@@ -12,30 +13,27 @@ class MeasurementController {
   }
 
   async index(req: Request, res: Response) {
-    const farm_id = Number(req.query.farm_id);
+    const farmId = Number(req.query.farm_id);
+    let { startDate, endDate, orderBy, queryType } = req.query;
 
     const farm = await this.prisma.farms.findOne({
       where: {
-        id: farm_id,
+        id: farmId,
       },
     });
 
-    if (!farm) {
-      return res.status(400).json({ error: res.__("Farm not found") });
-    }
+    if (!farm) return res.status(400).json({ error: res.__("Farm not found") });
 
-    const measurements = await this.prisma.measurements.findMany({
-      where: {
-        farm_id,
-      },
-      select: {
-        water_amount: true,
-        created_at: true,
-      },
-      orderBy: {
-        created_at: "asc",
-      },
-    });
+    startDate = String(startDate);
+    endDate = String(endDate);
+
+    const measurements = await getFarmMeasures(
+      farmId,
+      new Date(startDate),
+      new Date(endDate),
+      String(orderBy),
+      String(queryType)
+    );
 
     return res.status(200).json(measurements);
   }

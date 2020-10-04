@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { getFarmMeasures } from "../utils/getFarmMeasures";
+import { getFarmMeasures, queryTypeEnum } from "../utils/getFarmMeasures";
 import { addDays, startOfDay, endOfDay, subHours } from "date-fns";
+import { HomeResponseInterface } from "../interfaces/HomeResponseInterface";
 
 class HomeController {
   private prisma: PrismaClient;
@@ -35,14 +36,18 @@ class HomeController {
     responseData.todayMeasures = await getFarmMeasures(
       farm_id,
       startOfDay(date),
-      endOfDay(date)
+      endOfDay(date),
+      "asc",
+      queryTypeEnum.SUM
     );
 
     // RETRIVING INFORMATION FROM THE LAST 12 HOURS
     responseData.lastTwelveHoursMeasures = await getFarmMeasures(
       farm_id,
       subHours(date, 12),
-      date
+      date,
+      "asc",
+      queryTypeEnum.SUM
     );
 
     // RETRIVING INFORMATION FROM YESTERDAY
@@ -51,7 +56,9 @@ class HomeController {
     responseData.yesterdayMeasures = await getFarmMeasures(
       farm_id,
       startOfDay(date),
-      endOfDay(date)
+      endOfDay(date),
+      "asc",
+      queryTypeEnum.SUM
     );
 
     return res.status(200).json(responseData);
