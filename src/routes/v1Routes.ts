@@ -43,6 +43,7 @@ v1Routes.put(
   "/users/:id",
   idValidator,
   userValidator,
+  tokenValidator,
   UserController.update.bind(UserController)
 );
 
@@ -66,7 +67,6 @@ v1Routes.get(
   tokenValidator,
   FarmController.index.bind(FarmController)
 );
-
 v1Routes.post(
   "/farms",
   tokenValidator,
@@ -81,14 +81,12 @@ v1Routes.get(
   linkUserFarmIndexValidator,
   LinkUserFarmController.index.bind(LinkUserFarmController)
 );
-
 v1Routes.post(
   "/link_user_farm",
   tokenValidator,
   linkUserFarmStoreValidator,
   LinkUserFarmController.store.bind(LinkUserFarmController)
 );
-
 v1Routes.delete(
   "/link_user_farm",
   tokenValidator,
@@ -102,7 +100,6 @@ v1Routes.get(
   measurementsIndexValidator,
   MeasurementController.index.bind(MeasurementController)
 );
-
 v1Routes.post(
   "/measurements",
   measurementsStoreValidator,

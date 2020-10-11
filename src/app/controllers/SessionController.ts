@@ -25,7 +25,7 @@ class SessionController {
     const { email, password } = req.body;
 
     const user = await userExistsValidator(email);
-
+    
     if (!user) {
       return res.status(400).json({
         error: res.__("User not found"),
@@ -64,7 +64,12 @@ class SessionController {
     });
 
     return res.status(200).json({
-      token,
+      user: {
+        name: user.name,
+        email: user.email,
+        profile: user.profile_id,
+        token
+      },     
     });
   }
 }
