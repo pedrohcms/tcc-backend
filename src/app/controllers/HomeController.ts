@@ -25,9 +25,21 @@ class HomeController {
     }
 
     const responseData: HomeResponseInterface = {
-      todayMeasures: 0,
-      lastTwelveHoursMeasures: 0,
-      yesterdayMeasures: 0,
+      todayMeasures: {
+        start_date: new Date(),
+        end_date: new Date(),
+        sum: 0
+      },
+      lastTwelveHoursMeasures: {
+        start_date: new Date(),
+        end_date: new Date(),
+        sum: 0
+      },
+      yesterdayMeasures: {
+        start_date: new Date(),
+        end_date: new Date(),
+        sum: 0
+      },
     };
 
     // RETRIVING INFORMATION FROM TODAY

@@ -110,7 +110,7 @@ v1Routes.post(
 );
 
 // Routes for HomeController
-v1Routes.get("/home/:id", HomeController.show.bind(HomeController));
+v1Routes.get("/home/:id", tokenValidator, HomeController.show.bind(HomeController));
 
 v1Routes.use(errors);
 
