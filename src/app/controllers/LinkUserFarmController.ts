@@ -38,6 +38,8 @@ class LinkUserFarmController {
       },
     });
 
+    this.prisma.$disconnect();
+
     return res.status(200).json(users);
   }
 
@@ -90,6 +92,8 @@ class LinkUserFarmController {
       },
     });
 
+    this.prisma.$disconnect();
+
     return res.sendStatus(201);
   }
 
@@ -126,6 +130,8 @@ class LinkUserFarmController {
         },
       },
     });
+
+    this.prisma.$disconnect();
 
     return res.sendStatus(200);
   }

@@ -40,6 +40,8 @@ class FarmController {
       },
     });
 
+    this.prisma.$disconnect();
+
     return res.status(200).json(farms);
   }
 
@@ -79,6 +81,8 @@ class FarmController {
         address,
       },
     });
+
+    this.prisma.$disconnect();
 
     return res.status(201).json(farm);
   }

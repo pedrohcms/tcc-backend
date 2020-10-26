@@ -42,6 +42,8 @@ class ResetPasswordController {
       },
     });
 
+    this.prisma.$disconnect();
+
     res.sendStatus(200);
   }
 }

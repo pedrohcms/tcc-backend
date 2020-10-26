@@ -16,6 +16,8 @@ export async function profileValidator(
     },
   });
 
+  prisma.$disconnect();
+
   if (requiredProfile > (user?.profile_id ?? 1)) {
     return false;
   }

@@ -35,6 +35,8 @@ class MeasurementController {
       String(queryType)
     );
 
+    this.prisma.$disconnect();
+
     return res.status(200).json(measurements);
   }
 
@@ -67,6 +69,8 @@ class MeasurementController {
     await this.prisma.measurements.create({
       data,
     });
+
+    this.prisma.$disconnect();
 
     return res.sendStatus(200);
   }

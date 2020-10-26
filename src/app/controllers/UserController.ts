@@ -27,6 +27,8 @@ class UserController {
       });
     }
 
+    this.prisma.$disconnect();
+
     return res.status(200).json(user);
   }
 
@@ -52,6 +54,8 @@ class UserController {
         password: hash("sha256", password),
       },
     });
+
+    this.prisma.$disconnect();
 
     return res.status(201).json(user);
   }
@@ -93,6 +97,8 @@ class UserController {
         id: user.id,
       },
     });
+
+    this.prisma.$disconnect();
 
     return res.status(200).json(user);
   }
