@@ -7,8 +7,7 @@ export const getFarmMeasures = async (
   endDate: Date,
   orderBy: string,
   queryType: string
-) => {
-  startDate = addDays(startDate, -2);
+) => {  
   startDate = startOfDay(startDate);
 
   const prisma = new PrismaClient();
@@ -82,7 +81,7 @@ export const getFarmMeasures = async (
 
     case queryTypeEnum.GROUP:
       let query = `SELECT 
-                      A.created_at::DATE, 
+                      A.created_at AS start_date, 
                       SUM(A.water_amount) 
                     FROM measurements A INNER JOIN farms B ON 
                       A.farm_id = B.id
@@ -92,12 +91,14 @@ export const getFarmMeasures = async (
                         "y-MM-dd"
                       )}'
                       AND A.created_at::DATE <= '${format(endDate, "y-MM-dd")}'
-                    GROUP BY A.created_at::DATE 
+                    GROUP BY A.created_at 
                     ORDER BY A.created_at::DATE ${choosenOrderBy};`;
 
       measures = await prisma.$queryRaw(query);
       break;
   }
+
+  prisma.$disconnect();
 
   return measures;
 };

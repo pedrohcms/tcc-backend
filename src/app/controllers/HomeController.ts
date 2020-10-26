@@ -73,6 +73,8 @@ class HomeController {
       queryTypeEnum.SUM
     );
 
+    this.prisma.$disconnect();
+
     return res.status(200).json(responseData);
   }
 }

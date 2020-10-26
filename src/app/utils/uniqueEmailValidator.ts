@@ -17,6 +17,8 @@ export default async (email: string) => {
     },
   });
 
+  prisma.$disconnect();
+
   if (!found) {
     return true;
   }
