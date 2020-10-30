@@ -63,3 +63,9 @@ model measurements {
   created_at   DateTime @default(now())
   farms        farms    @relation(fields: [farm_id], references: [id])
 }
+
+model cultures {
+  id             Int     @id @default(autoincrement())
+  name           String?
+  ideal_moisture Float?
+}

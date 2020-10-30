@@ -1,8 +1,9 @@
 {
-  "User not found": "User not found",
-  "Farm not found": "Farm not found",
-  "Invalid password": "Invalid password",
-  "Email already in use": "Email already in use",
-  "Password values does not match": "Password values does not match",
-  "Address already in use": "Address already in use"
+	"User not found": "User not found",
+	"Farm not found": "Farm not found",
+	"Invalid password": "Invalid password",
+	"Email already in use": "Email already in use",
+	"Password values does not match": "Password values does not match",
+	"Address already in use": "Address already in use",
+	"Culture not found": "Culture not found"
 }

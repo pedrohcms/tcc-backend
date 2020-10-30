@@ -6,6 +6,7 @@ import FarmController from "../app/controllers/FarmController";
 import LinkUserFarmController from "../app/controllers/LinkUserFarmController";
 import MeasurementController from "../app/controllers/MeasurementController";
 import HomeController from "../app/controllers/HomeController";
+import CultureController from "../app/controllers/CultureController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
@@ -108,6 +109,22 @@ v1Routes.post(
 
 // Routes for HomeController
 v1Routes.get("/home/:id", tokenValidator, HomeController.show.bind(HomeController));
+
+// Routes for CultureController
+v1Routes.get(
+  "/cultures/:id", 
+  CultureController.show.bind(CultureController)
+);
+v1Routes.post(
+  "/cultures",
+  tokenValidator,
+  CultureController.store.bind(CultureController)
+);
+v1Routes.delete(
+  "/cultures/:id",
+  tokenValidator,
+  CultureController.destroy.bind(CultureController)
+);
 
 v1Routes.use(errors);
 
