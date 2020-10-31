@@ -38,6 +38,7 @@ model farms {
   address      String         @unique
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now())
+  farm_culture farm_culture[]
   measurements measurements[]
   user_farm    user_farm[]
 }
@@ -65,7 +66,17 @@ model measurements {
 }
 
 model cultures {
-  id             Int     @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   name           String?
   ideal_moisture Float?
+  farm_culture   farm_culture[]
+}
+
+model farm_culture {
+  id         Int       @id @default(autoincrement())
+  farm_id    Int?
+  sector     String?
+  culture_id Int?
+  cultures   cultures? @relation(fields: [culture_id], references: [id])
+  farms      farms?    @relation(fields: [farm_id], references: [id])
 }

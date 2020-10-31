@@ -7,12 +7,15 @@ import LinkUserFarmController from "../app/controllers/LinkUserFarmController";
 import MeasurementController from "../app/controllers/MeasurementController";
 import HomeController from "../app/controllers/HomeController";
 import CultureController from "../app/controllers/CultureController";
+import FarmCultureController from "../app/controllers/FarmCultureController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
 import { resetPasswordValidator } from "../app/validators/resetPasswordValidator";
 import { sessionValidator } from "../app/validators/sessionValidator";
 import { farmStoreValidator } from "../app/validators/farmValidator";
+import { cultureValidator } from "../app/validators/cultureValidator";
+import { farmCultureValidator } from "../app/validators/farmCultureValidator";
 import { tokenValidator } from "../app/validators/tokenValidator";
 import {
   linkUserFarmDestroyValidator,
@@ -108,7 +111,11 @@ v1Routes.post(
 );
 
 // Routes for HomeController
-v1Routes.get("/home/:id", tokenValidator, HomeController.show.bind(HomeController));
+v1Routes.get(
+  "/home/:id", 
+  tokenValidator, 
+  HomeController.show.bind(HomeController)
+);
 
 // Routes for CultureController
 v1Routes.get(
@@ -118,12 +125,26 @@ v1Routes.get(
 v1Routes.post(
   "/cultures",
   tokenValidator,
+  cultureValidator,
   CultureController.store.bind(CultureController)
 );
 v1Routes.delete(
   "/cultures/:id",
   tokenValidator,
   CultureController.destroy.bind(CultureController)
+);
+
+// Routes for FarmCulture
+v1Routes.get(
+  "/farm_culture/:id",
+  tokenValidator,
+  FarmCultureController.show.bind(FarmCultureController)
+);
+v1Routes.post(
+  "/farm_culture",
+  tokenValidator,
+  farmCultureValidator,
+  FarmCultureController.store.bind(FarmCultureController)
 );
 
 v1Routes.use(errors);

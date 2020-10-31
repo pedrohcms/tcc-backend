@@ -5,5 +5,7 @@
 	"Email already in use": "Email already in use",
 	"Password values does not match": "Password values does not match",
 	"Address already in use": "Address already in use",
-	"Culture not found": "Culture not found"
+	"Culture not found": "Culture not found",
+	"Farm's culture already exists": "Farm's culture already exists",
+	"Farm's culture not found": "Farm's culture not found"
 }
