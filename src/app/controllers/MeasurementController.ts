@@ -14,7 +14,7 @@ class MeasurementController {
 
   async index(req: Request, res: Response) {
     const farmId = Number(req.query.farmId);
-    let { startDate, endDate, orderBy, queryType } = req.query;
+    let { startDate, endDate, queryType } = req.query;
 
     const farm = await this.prisma.farms.findOne({
       where: {
@@ -31,11 +31,17 @@ class MeasurementController {
     endDate = String(endDate);
 
     let measurements = await Measure.getMeasures(farmId, new Date(startDate), new Date(endDate));
-    measurements = Measure.sumMeasures(measurements);
-    
+
     this.prisma.$disconnect();
 
-    return res.status(200).json(measurements);
+    switch (queryType) {
+      case "LIST":
+        return res.status(200).json(measurements);
+
+      case "SUM":
+        measurements = Measure.sumMeasures(measurements);
+        return res.status(200).json(measurements);
+    }
   }
 
   async store(req: Request, res: Response) {

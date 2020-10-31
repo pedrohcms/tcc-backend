@@ -1,5 +1,5 @@
 import { PrismaClient, SortOrder } from "@prisma/client";
-import { startOfDay } from "date-fns";
+import { format, startOfDay } from "date-fns";
 
 export class Measure {
   private sector: string | null;
@@ -73,19 +73,19 @@ export class Measure {
   /**
    * METHOD SUM ALL MEASURES OF A FARM
    */
-  static sumMeasures(measures: Array<Measure>) {
+  static sumMeasures(measurements: Array<Measure>) {
     let summedMeasures = new Array<Measure>();
 
     let waterAmount = 0;
     let moisture = 0;
-
-    measures.forEach((measure) => {
-      measure.measures.forEach(m => {
-        waterAmount += m.waterAmount;
-        moisture += m.moisture;
+    
+    measurements.forEach((measures) => {
+      measures.measures.forEach(measure => {
+        waterAmount += measure.waterAmount;
+        moisture += measure.moisture;
       });
     });
-
+    
     summedMeasures.push(new Measure({ sector: null, culture: null, ideal_moisture: null, measures: [{ water_amount: waterAmount, moisture, created_at: null }] }));
 
     return summedMeasures;

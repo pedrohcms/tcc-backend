@@ -109,14 +109,14 @@ v1Routes.post(
   measurementsStoreValidator,
   MeasurementController.store.bind(MeasurementController)
 );
-
+/*
 // Routes for HomeController
 v1Routes.get(
   "/home/:id", 
   tokenValidator, 
   HomeController.show.bind(HomeController)
 );
-
+*/
 // Routes for CultureController
 v1Routes.get(
   "/cultures/:id", 

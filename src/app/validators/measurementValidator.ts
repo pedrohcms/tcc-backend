@@ -1,27 +1,13 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { CustomHelpers } from "@hapi/joi";
-import { queryTypeEnum } from "../utils/getFarmMeasures";
 
 const queryTypeValidator = (value: string, helpers: CustomHelpers) => {
   if (
     (value != null || value != undefined) &&
-    value != queryTypeEnum.GROUP &&
     value != queryTypeEnum.LIST &&
     value != queryTypeEnum.SUM
   )
-    return helpers.error('"query_type" value must be GROUP, LIST or SUM');
-
-  return value;
-};
-
-const orderByValidator = (value: string, helpers: CustomHelpers) => {
-  if (
-    (value != null || value != undefined) &&
-    value != "asc" &&
-    value != "desc"
-  ) {
-    return helpers.error("'orderBy' value must be asc or desc");
-  }
+    return helpers.error('"query_type" value must be LIST or SUM');
 
   return value;
 };
@@ -31,12 +17,9 @@ export const measurementsIndexValidator = celebrate({
     farmId: Joi.number().required(),
     startDate: Joi.date().required(),
     endDate: Joi.date().required(),
-    orderBy: Joi.string()
-      .custom(orderByValidator, "Validator for orderBy")
-      .error(new Error("'orderBy' value must be asc or desc")),
-    queryType: Joi.string()
+    queryType: Joi.string().required()
       .custom(queryTypeValidator, "Validator for queryType")
-      .error(new Error('"query_type" value must be GROUP, LIST or SUM')),
+      .error(new Error('"query_type" value must be LIST or SUM')),
   }),
 });
 
@@ -48,3 +31,8 @@ export const measurementsStoreValidator = celebrate({
     createdAt: Joi.date(),
   }),
 });
+
+enum queryTypeEnum {
+  SUM = "SUM",
+  LIST = "LIST"
+}
