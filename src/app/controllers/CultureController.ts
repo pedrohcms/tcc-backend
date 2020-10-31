@@ -44,7 +44,9 @@ class CultureController {
 
     this.prisma.$disconnect();
 
-    if(culture === null) return res.sendStatus(400);
+    if(culture === null) {
+      return res.status(400).json({"error": res.__("Culture not found")});
+    } 
 
     return res.status(200).json(culture);
   }

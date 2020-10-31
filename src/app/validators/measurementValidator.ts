@@ -28,7 +28,7 @@ const orderByValidator = (value: string, helpers: CustomHelpers) => {
 
 export const measurementsIndexValidator = celebrate({
   [Segments.QUERY]: Joi.object().keys({
-    farm_id: Joi.number().required(),
+    farmId: Joi.number().required(),
     startDate: Joi.date().required(),
     endDate: Joi.date().required(),
     orderBy: Joi.string()
@@ -42,8 +42,9 @@ export const measurementsIndexValidator = celebrate({
 
 export const measurementsStoreValidator = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    farm_id: Joi.number().required(),
-    water_amount: Joi.number().required(),
-    created_at: Joi.date(),
+    farmCultureId: Joi.number().required(),
+    waterAmount: Joi.number().required(),
+    moisture: Joi.number().required(),
+    createdAt: Joi.date(),
   }),
 });

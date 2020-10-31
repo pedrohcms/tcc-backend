@@ -39,7 +39,6 @@ model farms {
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now())
   farm_culture farm_culture[]
-  measurements measurements[]
   user_farm    user_farm[]
 }
 
@@ -58,25 +57,27 @@ model user_farm {
 }
 
 model measurements {
-  id           Int      @id @default(autoincrement())
-  farm_id      Int
-  water_amount Float    @default(dbgenerated())
-  created_at   DateTime @default(now())
-  farms        farms    @relation(fields: [farm_id], references: [id])
+  id              Int          @id @default(autoincrement())
+  water_amount    Float        @default(dbgenerated())
+  created_at      DateTime     @default(now())
+  farm_culture_id Int
+  moisture        Float        @default(dbgenerated())
+  farm_culture    farm_culture @relation(fields: [farm_culture_id], references: [id])
 }
 
 model cultures {
   id             Int            @id @default(autoincrement())
-  name           String?
-  ideal_moisture Float?
+  name           String
+  ideal_moisture Float
   farm_culture   farm_culture[]
 }
 
 model farm_culture {
-  id         Int       @id @default(autoincrement())
-  farm_id    Int?
-  sector     String?
-  culture_id Int?
-  cultures   cultures? @relation(fields: [culture_id], references: [id])
-  farms      farms?    @relation(fields: [farm_id], references: [id])
+  id           Int            @id @default(autoincrement())
+  farm_id      Int
+  sector       String
+  culture_id   Int
+  cultures     cultures       @relation(fields: [culture_id], references: [id])
+  farms        farms          @relation(fields: [farm_id], references: [id])
+  measurements measurements[]
 }

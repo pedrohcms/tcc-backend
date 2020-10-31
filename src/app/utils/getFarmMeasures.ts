@@ -1,13 +1,13 @@
 import { PrismaClient, SortOrder } from "@prisma/client";
-import { format, addDays, startOfDay } from "date-fns";
+import { addDays, format, startOfDay } from "date-fns";
 
 export const getFarmMeasures = async (
-  farmId: number,
+  farmCultureId: number,
   startDate: Date,
   endDate: Date,
   orderBy: string,
   queryType: string
-) => {  
+) => {
   startDate = startOfDay(startDate);
 
   const prisma = new PrismaClient();
@@ -40,12 +40,13 @@ export const getFarmMeasures = async (
         select: {
           created_at: true,
           water_amount: true,
+          moisture: true,
         },
         orderBy: {
           created_at: choosenOrderBy,
         },
         where: {
-          farm_id: farmId,
+          farm_culture_id: farmCultureId,
           created_at: {
             gte: startDate,
             lte: endDate,
@@ -58,12 +59,13 @@ export const getFarmMeasures = async (
       measures = await prisma.measurements.aggregate({
         sum: {
           water_amount: true,
+          moisture: true,
         },
         orderBy: {
           created_at: choosenOrderBy,
         },
         where: {
-          farm_id: farmId,
+          farm_culture_id: farmCultureId,
           created_at: {
             gte: startDate,
             lte: endDate,
@@ -80,12 +82,14 @@ export const getFarmMeasures = async (
       break;
 
     case queryTypeEnum.GROUP:
+      endDate = addDays(endDate, 1);
+
       let query = `SELECT 
                       A.created_at AS start_date, 
-                      SUM(A.water_amount) 
-                    FROM measurements A INNER JOIN farms B ON 
-                      A.farm_id = B.id
-                    WHERE B.id = ${farmId}
+                      SUM(A.water_amount)
+                    FROM measurements A INNER JOIN farm_culture B ON 
+                      A.farm_culture_id = B.id
+                    WHERE B.id = ${farmCultureId}
                       AND A.created_at::DATE >= '${format(
                         startDate,
                         "y-MM-dd"

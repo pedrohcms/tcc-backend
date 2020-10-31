@@ -3,9 +3,9 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTableIfNotExists("farm_culture", (table: Knex.TableBuilder) => {
     table.increments("id");
-    table.integer("farm_id");
-    table.string("sector");
-    table.integer("culture_id");
+    table.integer("farm_id").notNullable();
+    table.string("sector").notNullable();
+    table.integer("culture_id").notNullable();
 
     table.foreign("farm_id").references("farms.id");
     table.foreign("culture_id").references("cultures.id");

@@ -13,22 +13,22 @@ class MeasurementController {
   }
 
   async index(req: Request, res: Response) {
-    const farmId = Number(req.query.farm_id);
+    const farmCultureId = Number(req.query.farmCultureId);
     let { startDate, endDate, orderBy, queryType } = req.query;
 
-    const farm = await this.prisma.farms.findOne({
+    const farmCulture = await this.prisma.farm_culture.findOne({
       where: {
-        id: farmId,
+        id: farmCultureId,
       },
     });
 
-    if (!farm) return res.status(400).json({ error: res.__("Farm not found") });
+    if (!farmCulture) return res.status(400).json({ error: res.__("Farm not found") });
 
     startDate = String(startDate);
     endDate = String(endDate);
 
     const measurements = await getFarmMeasures(
-      farmId,
+      farmCultureId,
       new Date(startDate),
       new Date(endDate),
       String(orderBy),
@@ -41,38 +41,47 @@ class MeasurementController {
   }
 
   async store(req: Request, res: Response) {
-    const { farm_id, water_amount, created_at } = req.body;
+    const { farmCultureId, waterAmount, moisture, createdAt } = req.body;
 
-    const farm = await this.prisma.farms.findOne({
+    const farmCulture = await this.prisma.farm_culture.findOne({
       where: {
-        id: farm_id,
-      },
+        id: farmCultureId
+      }
     });
 
-    if (!farm) {
+    if (!farmCulture) {
+      this.prisma.$disconnect();
       return res.status(400).json({ error: res.__("Farm not found") });
     }
 
     const data: measurementsCreateInput = {
-      water_amount,
-      farms: {
+      water_amount: waterAmount,
+      moisture: moisture,
+      farm_culture: {
         connect: {
-          id: farm_id,
-        },
-      },
+          id: farmCultureId
+        }
+      }
     };
 
-    if (created_at != undefined) {
-      data.created_at = created_at;
+    if (createdAt != undefined) {
+      data.created_at = createdAt;
     }
 
-    await this.prisma.measurements.create({
+    const measurement = await this.prisma.measurements.create({
       data,
+      select: {
+        id: true,
+        farm_culture_id: true,
+        water_amount: true,
+        moisture: true,
+        created_at: true
+      }
     });
 
     this.prisma.$disconnect();
 
-    return res.sendStatus(200);
+    return res.status(200).json(measurement);
   }
 }
 
