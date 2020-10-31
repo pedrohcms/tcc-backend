@@ -1,8 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { getFarmMeasures, queryTypeEnum } from "../utils/getFarmMeasures";
 import { addDays, startOfDay, endOfDay, subHours } from "date-fns";
-import { HomeResponseInterface } from "../interfaces/HomeResponseInterface";
+import { Measure } from "../classes/Measure";
 
 class HomeController {
   private prisma: PrismaClient;
@@ -12,66 +11,43 @@ class HomeController {
   }
 
   async show(req: Request, res: Response) {
-    const farm_id = Number(req.params.id);
+    const farmId = Number(req.params.id);
 
     const farm = await this.prisma.farms.findOne({
       where: {
-        id: farm_id,
+        id: farmId,
       },
     });
 
     if (!farm) {
+      this.prisma.$disconnect();
       return res.status(400).json({ error: res.__("Farm not found") });
     }
 
-    const responseData: HomeResponseInterface = {
-      todayMeasures: {
-        start_date: new Date(),
-        end_date: new Date(),
-        sum: 0
-      },
-      lastTwelveHoursMeasures: {
-        start_date: new Date(),
-        end_date: new Date(),
-        sum: 0
-      },
-      yesterdayMeasures: {
-        start_date: new Date(),
-        end_date: new Date(),
-        sum: 0
-      },
-    };
+    const responseData = {
+      todayMeasures: new Array<Measure>(),
+      lastTwelveHoursMeasures: new Array<Measure>(),
+      yesterdayMeasures: new Array<Measure>(),
+    };    
 
     // RETRIVING INFORMATION FROM TODAY
     let date = new Date();
 
-    responseData.todayMeasures = await getFarmMeasures(
-      farm_id,
-      startOfDay(date),
-      endOfDay(date),
-      "asc",
-      queryTypeEnum.SUM
-    );
+    let measures = await Measure.getMeasures(farmId, date, endOfDay(date));
+    let summedMeasures = Measure.sumMeasures(measures);
+    responseData.todayMeasures = summedMeasures;
 
     // RETRIVING INFORMATION FROM THE LAST 12 HOURS
-    responseData.lastTwelveHoursMeasures = await getFarmMeasures(
-      farm_id,
-      subHours(date, 12),
-      date,
-      "asc",
-      queryTypeEnum.SUM
-    );
-
-    // RETRIVING INFORMATION FROM YESTERDAY
+    measures = await Measure.getMeasures(farmId, subHours(date, 12), date);
+    summedMeasures = Measure.sumMeasures(measures);
+    responseData.lastTwelveHoursMeasures = summedMeasures;
+   
+    // RETRIVING INFORMATION FROM YESTERDAY    
     date = addDays(date, -1);
 
-    responseData.yesterdayMeasures = await getFarmMeasures(
-      farm_id,
-      startOfDay(date),
-      endOfDay(date),
-      "asc",
-      queryTypeEnum.SUM
-    );
+    measures = await Measure.getMeasures(farmId, startOfDay(date), endOfDay(date));
+    summedMeasures = Measure.sumMeasures(measures);
+    responseData.yesterdayMeasures = summedMeasures;
 
     this.prisma.$disconnect();
 
