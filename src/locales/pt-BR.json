@@ -1,8 +1,11 @@
 {
-  "User not found": "Usuário não encontrado",
-  "Farm not found": "Fazenda não encontrada",
-  "Invalid password": "Senha incorreta",
-  "Email already in use": "O email já está sendo usado",
-  "Password values does not match": "Os valores de senha devem ser iguais",
-  "Address already in use": "O endereço já está sendo usado"
+	"User not found": "Usuário não encontrado",
+	"Farm not found": "Fazenda não encontrada",
+	"Invalid password": "Senha incorreta",
+	"Email already in use": "O email já está sendo usado",
+	"Password values does not match": "Os valores de senha devem ser iguais",
+	"Address already in use": "O endereço já está sendo usado",
+	"Culture not found": "Cultura não encontrada",
+	"Farm's culture already exists": "A cultura da fazenda já existe",
+	"Farm's culture not found": "Cultura da fazenda não encontrada"
 }

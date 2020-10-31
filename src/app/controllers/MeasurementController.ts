@@ -1,6 +1,6 @@
 import { measurementsCreateInput, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { getFarmMeasures } from "../utils/getFarmMeasures";
+import { Measure } from "../classes/Measure";
 
 /**
  * Class responsible for handling CRUD for measurement data
@@ -13,8 +13,8 @@ class MeasurementController {
   }
 
   async index(req: Request, res: Response) {
-    const farmId = Number(req.query.farm_id);
-    let { startDate, endDate, orderBy, queryType } = req.query;
+    const farmId = Number(req.query.farmId);
+    let { startDate, endDate, queryType } = req.query;
 
     const farm = await this.prisma.farms.findOne({
       where: {
@@ -22,57 +22,70 @@ class MeasurementController {
       },
     });
 
-    if (!farm) return res.status(400).json({ error: res.__("Farm not found") });
+    if (!farm) {
+      this.prisma.$disconnect();
+      return res.status(400).json({ error: res.__("Farm not found") });
+    } 
 
     startDate = String(startDate);
     endDate = String(endDate);
 
-    const measurements = await getFarmMeasures(
-      farmId,
-      new Date(startDate),
-      new Date(endDate),
-      String(orderBy),
-      String(queryType)
-    );
+    let measurements = await Measure.getMeasures(farmId, new Date(startDate), new Date(endDate));
 
     this.prisma.$disconnect();
 
-    return res.status(200).json(measurements);
+    switch (queryType) {
+      case "LIST":
+        return res.status(200).json(measurements);
+
+      case "SUM":
+        measurements = Measure.sumMeasures(measurements);
+        return res.status(200).json(measurements);
+    }
   }
 
   async store(req: Request, res: Response) {
-    const { farm_id, water_amount, created_at } = req.body;
+    const { farmCultureId, waterAmount, moisture, createdAt } = req.body;
 
-    const farm = await this.prisma.farms.findOne({
+    const farmCulture = await this.prisma.farm_culture.findOne({
       where: {
-        id: farm_id,
-      },
+        id: farmCultureId
+      }
     });
 
-    if (!farm) {
+    if (!farmCulture) {
+      this.prisma.$disconnect();
       return res.status(400).json({ error: res.__("Farm not found") });
     }
 
     const data: measurementsCreateInput = {
-      water_amount,
-      farms: {
+      water_amount: waterAmount,
+      moisture: moisture,
+      farm_culture: {
         connect: {
-          id: farm_id,
-        },
-      },
+          id: farmCultureId
+        }
+      }
     };
 
-    if (created_at != undefined) {
-      data.created_at = created_at;
+    if (createdAt != undefined) {
+      data.created_at = createdAt;
     }
 
-    await this.prisma.measurements.create({
+    const measurement = await this.prisma.measurements.create({
       data,
+      select: {
+        id: true,
+        farm_culture_id: true,
+        water_amount: true,
+        moisture: true,
+        created_at: true
+      }
     });
 
     this.prisma.$disconnect();
 
-    return res.sendStatus(200);
+    return res.status(200).json(measurement);
   }
 }
 
