@@ -26,7 +26,7 @@ export const linkUserFarmStoreValidator = celebrate(
 export const linkUserFarmDestroyValidator = celebrate(
   {
     [Segments.QUERY]: Joi.object().keys({
-      user_id: Joi.number().required(),
+      email: Joi.string().required(),
       address: Joi.string().required(),
     }),
   },

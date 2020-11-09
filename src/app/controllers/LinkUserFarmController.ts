@@ -98,12 +98,12 @@ class LinkUserFarmController {
   }
 
   async destroy(req: Request, res: Response) {
-    let { user_id, address } = req.query;
+    let { email, address } = req.query;
 
-    user_id = String(user_id);
+    email = String(email);
     address = String(address);
 
-    const user = await userExistsValidator(user_id);
+    const user = await userExistsValidator(email);
 
     if (!user) return res.status(400).json({ error: res.__("User not found") });
 
@@ -125,7 +125,9 @@ class LinkUserFarmController {
     await this.prisma.user_farm.deleteMany({
       where: {
         AND: {
-          user_id: Number(user_id),
+          users:{
+            email,
+          },
           farm_id: farm.id,
         },
       },

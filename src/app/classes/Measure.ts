@@ -1,5 +1,5 @@
 import { PrismaClient, SortOrder } from "@prisma/client";
-import { format, startOfDay } from "date-fns";
+import { startOfDay } from "date-fns";
 
 export class Measure {
   private sector: string | null;
@@ -48,25 +48,24 @@ export class Measure {
         farms: {
           id: farmId
         },
-        measurements: {
-          some: {
-            created_at: {
-              gte: startDate,
-              lte: endDate,
-            }
-          }
-        }
       }
     });
 
     prisma.$disconnect();
 
-    let convertedMeasures: Array<Measure> = [];
+    measures.forEach(measure => {
+      measure.measurements = measure.measurements.filter(element => {
+        if(element.created_at >= startDate && element.created_at <= endDate)
+          return true;
+      });
+    });
 
+    let convertedMeasures: Array<Measure> = [];
+    
     measures.forEach(measure => {
       convertedMeasures.push(new Measure({ sector: measure.sector, culture: measure.cultures.name, ideal_moisture: measure.cultures.ideal_moisture, measures: measure.measurements }));
     });    
-
+    
     return convertedMeasures;
   }
 
