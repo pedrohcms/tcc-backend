@@ -10,10 +10,10 @@ export class Database {
   /**
    * Método responsável por retornar uma instância do Prisma
    */
-  public static getInstance(): PrismaClient {
-    const prisma = Database.getInstance();
+  static async getInstance(): Promise<PrismaClient> {
+    const prisma = new PrismaClient();
     
-    Database.initTimezone(prisma);
+    await Database.initTimezone(prisma);
     
     return prisma;
   }
@@ -22,7 +22,7 @@ export class Database {
    * Método responsável por setar a timezone do banco de dados
    * @param prisma PrismaClient
    */
-  public static initTimezone(prisma: PrismaClient) {
-    prisma.$executeRaw("SET TIMEZONE=-3");
+  static async initTimezone(prisma: PrismaClient) {
+    await prisma.$executeRaw("SET TIMEZONE=-3");
   }
 }

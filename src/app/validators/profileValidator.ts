@@ -5,7 +5,7 @@ export async function profileValidator(
   userId: number,
   requiredProfile: number
 ) {
-  const prisma = Database.getInstance();
+  const prisma = await Database.getInstance();
 
   const user = await prisma.users.findOne({
     where: {

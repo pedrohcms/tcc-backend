@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import { profileValidator } from "../validators/profileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 import { Database } from "../classes/Database";
@@ -9,13 +8,9 @@ import { Database } from "../classes/Database";
  * @class FarmController
  */
 class FarmController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = Database.getInstance();
-  }
-
   async index(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     // CHECKING IF USER EXISTS
     const user = await userExistsValidator(req.body.user_id);
 
@@ -26,7 +21,7 @@ class FarmController {
     }
 
     // GETTING ALL THE FARMS A USER IS RELATED TO
-    const farms = await this.prisma.farms.findMany({
+    const farms = await prisma.farms.findMany({
       where: {
         user_farm: {
           some: {
@@ -41,12 +36,14 @@ class FarmController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json(farms);
   }
 
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { user_id, name, address } = req.body;
 
     // CHECKING IF USER EXISTS
@@ -64,7 +61,7 @@ class FarmController {
     }
 
     // CHECKING IF ADDRESS ALREADY EXISTS
-    let farm = await this.prisma.farms.findOne({
+    let farm = await prisma.farms.findOne({
       where: {
         address,
       },
@@ -76,14 +73,14 @@ class FarmController {
       });
     }
 
-    farm = await this.prisma.farms.create({
+    farm = await prisma.farms.create({
       data: {
         name,
         address,
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(201).json(farm);
   }

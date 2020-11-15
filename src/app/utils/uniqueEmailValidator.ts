@@ -6,7 +6,7 @@ import { Database } from "../classes/Database";
  * @author Pedro Henrique Correa Mota da Silva
  */
 export default async (email: string) => {
-  const prisma = Database.getInstance();
+  const prisma = await Database.getInstance();
 
   const found = await prisma.users.findOne({
     where: {

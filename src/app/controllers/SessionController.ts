@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
 import { generateToken, verifyToken } from "../utils/jwt";
 import { Request, Response } from "express";
@@ -12,17 +11,14 @@ import { Database } from "../classes/Database";
  * @author Pedro Henrique Correa Mota da Silva
  */
 class SessionController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = Database.getInstance();
-  }
   /**
    * This method create the JWT token if information is valid
    *
    * @author Pedro Henrique Correa Mota da Silva
    */
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { email, password } = req.body;
 
     const user = await userExistsValidator(email);
@@ -55,7 +51,7 @@ class SessionController {
     }
 
     // UPDATING THE USER TOKEN
-    await this.prisma.users.update({
+    await prisma.users.update({
       where: {
         id: user.id,
       },
@@ -64,7 +60,7 @@ class SessionController {
       },
     });
     
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json({
       user: {

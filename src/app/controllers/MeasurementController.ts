@@ -1,4 +1,4 @@
-import { measurementsCreateInput, PrismaClient } from "@prisma/client";
+import { measurementsCreateInput } from "@prisma/client";
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
 import { Measure } from "../classes/Measure";
@@ -7,24 +7,20 @@ import { Measure } from "../classes/Measure";
  * Class responsible for handling CRUD for measurement data
  */
 class MeasurementController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = Database.getInstance();
-  }
-
   async index(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const farmId = Number(req.query.farmId);
     let { startDate, endDate, queryType } = req.query;
 
-    const farm = await this.prisma.farms.findOne({
+    const farm = await prisma.farms.findOne({
       where: {
         id: farmId,
       },
     });
 
     if (!farm) {
-      this.prisma.$disconnect();
+      prisma.$disconnect();
       return res.status(400).json({ error: res.__("Farm not found") });
     } 
 
@@ -33,7 +29,7 @@ class MeasurementController {
 
     let measurements = await Measure.getMeasures(farmId, new Date(startDate), new Date(endDate));
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     switch (queryType) {
       case "LIST":
@@ -46,16 +42,19 @@ class MeasurementController {
   }
 
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { farmCultureId, waterAmount, moisture, createdAt } = req.body;
 
-    const farmCulture = await this.prisma.farm_culture.findOne({
+    const farmCulture = await prisma.farm_culture.findOne({
       where: {
         id: farmCultureId
       }
     });
 
     if (!farmCulture) {
-      this.prisma.$disconnect();
+      prisma.$disconnect();
+      
       return res.status(400).json({ error: res.__("Farm not found") });
     }
 
@@ -73,7 +72,7 @@ class MeasurementController {
       data.created_at = createdAt;
     }
 
-    const measurement = await this.prisma.measurements.create({
+    const measurement = await prisma.measurements.create({
       data,
       select: {
         id: true,
@@ -84,7 +83,7 @@ class MeasurementController {
       }
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json(measurement);
   }

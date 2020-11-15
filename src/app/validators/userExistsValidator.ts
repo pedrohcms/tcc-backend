@@ -3,7 +3,7 @@ import { Database } from "../classes/Database";
 export async function userExistsValidator(id: string) {
   const re = RegExp("[a-zA-Z]+");
 
-  const prisma = Database.getInstance();
+  const prisma = await Database.getInstance();
 
   let user;
 

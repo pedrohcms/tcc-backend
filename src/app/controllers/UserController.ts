@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import uniqueEmailValidator from "../utils/uniqueEmailValidator";
 import hash from "../utils/encryption";
@@ -8,18 +7,15 @@ import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling User CRUD
+ * 
  * @class UserController
  *
  * @author Pedro Henrique Correa Mota da Silva
  */
 class UserController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = Database.getInstance();
-  }
-
   async show(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const user = await userExistsValidator(req.params.id);
 
     if (!user) {
@@ -28,12 +24,14 @@ class UserController {
       });
     }
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json(user);
   }
 
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { user_id, name, email, password } = req.body;
 
     // CHECKING IF USER HAS PERMISSION
@@ -48,7 +46,7 @@ class UserController {
       });
     }
 
-    const user = await this.prisma.users.create({
+    const user = await prisma.users.create({
       data: {
         name,
         email,
@@ -56,12 +54,14 @@ class UserController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(201).json(user);
   }
 
   async update(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     let user = await userExistsValidator(req.params.id);
 
     // Check if user exists
@@ -88,7 +88,7 @@ class UserController {
       }
     }
 
-    user = await this.prisma.users.update({
+    user = await prisma.users.update({
       data: {
         name,
         email,
@@ -99,10 +99,10 @@ class UserController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json(user);
   }
 }
 
-export default new UserController();
+export default new UserController;

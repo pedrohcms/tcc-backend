@@ -1,20 +1,15 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
 import { profileValidator } from "../validators/profileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 
 class LinkUserFarmController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = Database.getInstance();
-  }
-
   async index(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const farm_id = Number(req.query.farm_id);
 
-    const farm = await this.prisma.farms.findOne({
+    const farm = await prisma.farms.findOne({
       where: {
         id: farm_id,
       },
@@ -24,7 +19,7 @@ class LinkUserFarmController {
     if (!farm) return res.status(400).json({ error: res.__("Farm not found") });
 
     // QUERYING FOR THE USERS RELATED TO THAT FARM
-    const users = await this.prisma.users.findMany({
+    const users = await prisma.users.findMany({
       where: {
         user_farm: {
           some: {
@@ -39,12 +34,14 @@ class LinkUserFarmController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json(users);
   }
 
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { user_id, email, address } = req.body;
 
     // CHECKING IF USER HAS PERMISSION
@@ -57,7 +54,7 @@ class LinkUserFarmController {
     if (!user) return res.status(400).json({ error: res.__("User not found") });
 
     // SEARCHING FOR FARM AND TRYING TO BRING THE USER TOO
-    const farm = await this.prisma.farms.findOne({
+    const farm = await prisma.farms.findOne({
       where: {
         address,
       },
@@ -78,7 +75,7 @@ class LinkUserFarmController {
     // CHECKING IF USER IS ALREADY LINKED TO THE FARM
     if (farm.user_farm.length > 0) return res.sendStatus(201);
 
-    await this.prisma.user_farm.create({
+    await prisma.user_farm.create({
       data: {
         farms: {
           connect: {
@@ -93,12 +90,14 @@ class LinkUserFarmController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.sendStatus(201);
   }
 
   async destroy(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     let { email, address } = req.query;
 
     email = String(email);
@@ -108,7 +107,7 @@ class LinkUserFarmController {
 
     if (!user) return res.status(400).json({ error: res.__("User not found") });
 
-    const farm = await this.prisma.farms.findOne({
+    const farm = await prisma.farms.findOne({
       where: {
         address,
       },
@@ -123,7 +122,7 @@ class LinkUserFarmController {
 
     if (!farm) return res.status(400).json({ error: res.__("Farm not found") });
 
-    await this.prisma.user_farm.deleteMany({
+    await prisma.user_farm.deleteMany({
       where: {
         AND: {
           users:{
@@ -134,7 +133,7 @@ class LinkUserFarmController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.sendStatus(200);
   }

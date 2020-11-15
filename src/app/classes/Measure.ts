@@ -25,7 +25,7 @@ export class Measure {
   static async getMeasures(farmId: number, startDate: Date, endDate: Date) {
     startDate = startOfDay(startDate);
 
-    const prisma = Database.getInstance();
+    const prisma = await Database.getInstance();
 
     const measures = await prisma.farm_culture.findMany({
       select: {
