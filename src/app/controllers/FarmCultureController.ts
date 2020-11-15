@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { Database } from "../classes/Database";
 
 class FarmCultureController {
   private prisma: PrismaClient;
   
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async show(req: Request, res: Response) {

@@ -4,6 +4,7 @@ import uniqueEmailValidator from "../utils/uniqueEmailValidator";
 import hash from "../utils/encryption";
 import { profileValidator } from "../validators/profileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
+import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling User CRUD
@@ -15,7 +16,7 @@ class UserController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async show(req: Request, res: Response) {

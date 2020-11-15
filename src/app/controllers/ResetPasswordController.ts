@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
 import { userExistsValidator } from "../validators/userExistsValidator";
+import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling password reset operations
@@ -13,7 +14,7 @@ class ResetPasswordController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async store(req: Request, res: Response) {

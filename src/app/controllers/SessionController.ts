@@ -3,6 +3,7 @@ import hash from "../utils/encryption";
 import { generateToken, verifyToken } from "../utils/jwt";
 import { Request, Response } from "express";
 import { userExistsValidator } from "../validators/userExistsValidator";
+import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling Login operation
@@ -14,7 +15,7 @@ class SessionController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
   /**
    * This method create the JWT token if information is valid

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Database } from "../classes/Database";
 
 /**
  * Given a email return true if email is unique or false if already in use.
@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
  * @author Pedro Henrique Correa Mota da Silva
  */
 export default async (email: string) => {
-  const prisma = new PrismaClient();
+  const prisma = Database.getInstance();
 
   const found = await prisma.users.findOne({
     where: {

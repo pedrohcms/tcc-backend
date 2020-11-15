@@ -2,12 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { addDays, startOfDay, endOfDay, subHours } from "date-fns";
 import { Measure } from "../classes/Measure";
+import { Database } from "../classes/Database";
 
 class HomeController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async show(req: Request, res: Response) {

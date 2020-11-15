@@ -1,5 +1,6 @@
 import { measurementsCreateInput, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { Database } from "../classes/Database";
 import { Measure } from "../classes/Measure";
 
 /**
@@ -9,7 +10,7 @@ class MeasurementController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async index(req: Request, res: Response) {

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { Database } from "../classes/Database";
 import { profileValidator } from "../validators/profileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 
@@ -7,7 +8,7 @@ class LinkUserFarmController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async index(req: Request, res: Response) {

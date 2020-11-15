@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { profileValidator } from "../validators/profileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
+import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling farm CRUD operations
@@ -11,7 +12,7 @@ class FarmController {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = Database.getInstance();
   }
 
   async index(req: Request, res: Response) {
