@@ -1,17 +1,13 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { Database } from "../classes/Database";
 
 class CultureController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = new PrismaClient();
-  }
-
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { name, idealMoisture } = req.body;
 
-    const culture = await this.prisma.cultures.create({
+    const culture = await prisma.cultures.create({
       data: {
         name,
         ideal_moisture: Number(idealMoisture)
@@ -23,15 +19,17 @@ class CultureController {
       }
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(201).json(culture);
   }
 
   async show(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const id = Number(req.params.id);
 
-    const culture = await this.prisma.cultures.findOne({
+    const culture = await prisma.cultures.findOne({
       where: {
         id,
       },
@@ -42,7 +40,7 @@ class CultureController {
       }
     })
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     if(culture === null) {
       return res.status(400).json({"error": res.__("Culture not found")});
@@ -52,26 +50,28 @@ class CultureController {
   }
 
   async destroy(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const id = Number(req.params.id);
 
-    const culture = await this.prisma.cultures.findOne({
+    const culture = await prisma.cultures.findOne({
       where: {
         id
       }
     });
     
     if(culture === null) {
-      this.prisma.$disconnect();
+      prisma.$disconnect();
       return res.status(400).json({"error": res.__("Culture not found")});
     }
 
-    await this.prisma.cultures.delete({
+    await prisma.cultures.delete({
       where: {
         id
       }
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
     return res.sendStatus(200);
   }
   

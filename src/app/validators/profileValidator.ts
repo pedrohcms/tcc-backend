@@ -1,11 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { Database } from "../classes/Database";
 
 // GIVEN A USER ID RETURN TRUE IF THE USER HAS THE RIGHT PROFILE OR FALSE IF
 export async function profileValidator(
   userId: number,
   requiredProfile: number
 ) {
-  const prisma = new PrismaClient();
+  const prisma = await Database.getInstance();
 
   const user = await prisma.users.findOne({
     where: {

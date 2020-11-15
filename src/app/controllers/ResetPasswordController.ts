@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import hash from "../utils/encryption";
 import { userExistsValidator } from "../validators/userExistsValidator";
+import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling password reset operations
@@ -10,13 +10,9 @@ import { userExistsValidator } from "../validators/userExistsValidator";
  * @author Pedro Henrique Correa Mota da Silva
  */
 class ResetPasswordController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = new PrismaClient();
-  }
-
   async store(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+
     const { password, confirm_password } = req.body;
 
     const user = await userExistsValidator(req.params.email);
@@ -33,7 +29,7 @@ class ResetPasswordController {
       });
     }
 
-    await this.prisma.users.update({
+    await prisma.users.update({
       data: {
         password: hash("sha256", password),
       },
@@ -42,7 +38,7 @@ class ResetPasswordController {
       },
     });
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     res.sendStatus(200);
   }

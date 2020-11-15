@@ -1,26 +1,22 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { addDays, startOfDay, endOfDay, subHours } from "date-fns";
 import { Measure } from "../classes/Measure";
+import { Database } from "../classes/Database";
 
 class HomeController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = new PrismaClient();
-  }
-
   async show(req: Request, res: Response) {
+    const prisma = await Database.getInstance();
+    
     const farmId = Number(req.params.id);
 
-    const farm = await this.prisma.farms.findOne({
+    const farm = await prisma.farms.findOne({
       where: {
         id: farmId,
       },
     });
 
     if (!farm) {
-      this.prisma.$disconnect();
+      prisma.$disconnect();
       return res.status(400).json({ error: res.__("Farm not found") });
     }
 
@@ -49,7 +45,7 @@ class HomeController {
     summedMeasures = Measure.sumMeasures(measures);
     responseData.yesterdayMeasures = summedMeasures;
 
-    this.prisma.$disconnect();
+    prisma.$disconnect();
 
     return res.status(200).json(responseData);
   }

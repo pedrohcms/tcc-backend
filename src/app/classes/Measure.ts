@@ -1,5 +1,5 @@
-import { PrismaClient, SortOrder } from "@prisma/client";
 import { startOfDay } from "date-fns";
+import { Database } from "./Database";
 
 export class Measure {
   private sector: string | null;
@@ -25,7 +25,7 @@ export class Measure {
   static async getMeasures(farmId: number, startDate: Date, endDate: Date) {
     startDate = startOfDay(startDate);
 
-    const prisma = new PrismaClient();
+    const prisma = await Database.getInstance();
 
     const measures = await prisma.farm_culture.findMany({
       select: {
@@ -41,7 +41,10 @@ export class Measure {
             water_amount: true,
             moisture: true,
             created_at: true,
-          }
+          },
+          orderBy: {
+            created_at: "asc",
+          },
         }
       },
       where: {
