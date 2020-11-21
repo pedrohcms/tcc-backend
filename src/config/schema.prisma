@@ -33,16 +33,17 @@ model users {
 }
 
 model farms {
-  id           Int            @id @default(autoincrement())
-  name         String
-  address      String         @unique
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @default(now())
-  engine_type  String?        @default("eletrico")
-  unity_amount Float          @default(dbgenerated())
-  unity_price  Float          @default(dbgenerated())
-  farm_culture farm_culture[]
-  user_farm    user_farm[]
+  id               Int                @id @default(autoincrement())
+  name             String
+  address          String             @unique
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @default(now())
+  engine_type      String?            @default("eletrico")
+  unity_amount     Float              @default(dbgenerated())
+  unity_price      Float              @default(dbgenerated())
+  engine_operation engine_operation[]
+  farm_culture     farm_culture[]
+  user_farm        user_farm[]
 }
 
 model profiles {
@@ -83,4 +84,12 @@ model farm_culture {
   cultures     cultures       @relation(fields: [culture_id], references: [id])
   farms        farms          @relation(fields: [farm_id], references: [id])
   measurements measurements[]
+}
+
+model engine_operation {
+  id              Int      @id @default(autoincrement())
+  farm_id         Int
+  start_date_time DateTime
+  end_date_time   DateTime
+  farms           farms    @relation(fields: [farm_id], references: [id])
 }
