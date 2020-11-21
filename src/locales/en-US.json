@@ -7,5 +7,7 @@
 	"Address already in use": "Address already in use",
 	"Culture not found": "Culture not found",
 	"Farm's culture already exists": "Farm's culture already exists",
-	"Farm's culture not found": "Farm's culture not found"
+	"Farm's culture not found": "Farm's culture not found",
+	"The value of the unityAmount field must be greater than zero": "The value of the unityAmount field must be greater than zero",
+	"The value of the unityPrice field must be greater than zero": "The value of the unityPrice field must be greater than zero"
 }

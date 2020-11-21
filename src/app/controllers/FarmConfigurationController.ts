@@ -39,6 +39,10 @@ class FarmConfigurationController {
 
     if(!farm) return res.status(400).json({ error: res.__("Farm not found") });
 
+    if(unityAmount < 0) return res.status(400).json({ error: res.__("The value of the unityAmount field must be greater than zero") });
+
+    if(unityPrice < 0) return res.status(400).json({ error: res.__("The value of the unityPrice field must be greater than zero") });
+
     const farmConfiguration = await FarmConfiguration.updateFarmConfiguration(farmId, engineType, unityAmount, unityPrice);
 
     return res.status(200).json(farmConfiguration);

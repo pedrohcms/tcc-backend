@@ -15,7 +15,7 @@ export class FarmConfiguration {
    * Method responsible for getting the configuration values for a given farm
    * @param farmId number
    */
-  static async getFarmConfiguration(farmId: number): Promise<FarmConfiguration> {
+  static async getFarmConfiguration(farmId: number) {
     const prisma = await Database.getInstance();
 
     const farm = await prisma.farms.findFirst({
