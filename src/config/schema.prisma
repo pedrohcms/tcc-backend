@@ -38,6 +38,9 @@ model farms {
   address      String         @unique
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now())
+  engine_type  String?        @default("eletrico")
+  unity_amount Float          @default(dbgenerated())
+  unity_price  Float          @default(dbgenerated())
   farm_culture farm_culture[]
   user_farm    user_farm[]
 }
