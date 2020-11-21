@@ -8,6 +8,7 @@ import MeasurementController from "../app/controllers/MeasurementController";
 import HomeController from "../app/controllers/HomeController";
 import CultureController from "../app/controllers/CultureController";
 import FarmCultureController from "../app/controllers/FarmCultureController";
+import FarmConfigurationController from "../app/controllers/FarmConfigurationController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
@@ -28,6 +29,7 @@ import {
 } from "../app/validators/measurementValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
+import { farmConfigurationValidator } from "../app/validators/farmConfigurationValidator";
 
 const v1Routes = Router();
 
@@ -145,6 +147,21 @@ v1Routes.post(
   tokenValidator,
   farmCultureValidator,
   FarmCultureController.store.bind(FarmCultureController)
+);
+
+// Routes for FarmConfiguration
+v1Routes.get(
+  "/farm_configuration/:id",
+  idValidator,
+  tokenValidator,
+  FarmConfigurationController.show.bind(FarmConfigurationController)
+);
+v1Routes.put(
+  "/farm_configuration/:id",
+  tokenValidator,
+  idValidator,
+  farmConfigurationValidator,
+  FarmConfigurationController.update.bind(FarmConfigurationController)
 );
 
 v1Routes.use(errors);
