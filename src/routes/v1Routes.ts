@@ -29,7 +29,7 @@ import {
   measurementsIndexValidator,
 } from "../app/validators/measurementValidator";
 import { farmConfigurationValidator } from "../app/validators/farmConfigurationValidator";
-import { engineOperationValidator } from "../app/validators/engineOperationValidator";
+import { engineOperationStoreValidator } from "../app/validators/engineOperationValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
 
@@ -167,10 +167,17 @@ v1Routes.put(
 );
 
 // Routes for EngineOperation
+v1Routes.get(
+  "/engine_operation", 
+  tokenValidator, 
+  engineOperationStoreValidator, 
+  EngineOperationController.show.bind(EngineOperationController)
+);
+
 v1Routes.post(
   "/engine_operation",
   tokenValidator,
-  engineOperationValidator,
+  engineOperationStoreValidator,
   EngineOperationController.store.bind(EngineOperationController)
 );
 
