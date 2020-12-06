@@ -49,7 +49,9 @@ export class EngineOperation {
 
     const results: IEngineOperationCalculation = {
       totalPrice: 0,
-      totalAmount: 0
+      totalAmount: 0,
+      engineType: 'eletrico',
+      hoursAmount: 0,
     };
 
     // Recovering engine operating intervals
@@ -81,6 +83,7 @@ export class EngineOperation {
       select: {
         unity_amount: true,
         unity_price: true,
+        engine_type: true,
       }
     });
 
@@ -98,8 +101,10 @@ export class EngineOperation {
 
     // Format and convert the number
     results.totalAmount = Number((hoursAmount * params.unity_amount).toFixed(2));
-    results.totalPrice  = Number((hoursAmount * params.unity_price).toFixed(2));
-
+    results.totalPrice  = Number((hoursAmount * params.unity_price * params.unity_amount).toFixed(2));
+    results.engineType  = String(params.engine_type);
+    results.hoursAmount = hoursAmount;
+        
     return results;
   }
 }
