@@ -52,7 +52,30 @@ export class EngineOperation {
       totalAmount: 0,
       engineType: 'eletrico',
       hoursAmount: 0,
+      unityAmount: 0,
+      unityPrice: 0,
     };
+
+    // Retrieving the calculation parameters
+    const params = await prisma.farms.findFirst({
+      where: {
+        id: farmId
+      },
+      select: {
+        unity_amount: true,
+        unity_price: true,
+        engine_type: true,
+      }
+    });
+
+    // If params are not defined we return the result
+    if(params!.unity_amount == 0 || params!.unity_price == 0) {
+      prisma.$disconnect();
+      return results;
+    }
+
+    results.unityAmount = params!.unity_amount;
+    results.unityPrice  = params!.unity_price;
 
     // Recovering engine operating intervals
     const engineOperations = await prisma.engine_operation.findMany({
@@ -69,28 +92,13 @@ export class EngineOperation {
       }
     });
 
-    // If no operation was found we return zero.
+    // If no operation was found we return the result.
     if(engineOperations.length == 0) {
       prisma.$disconnect();
       return results;
-    }
-
-    // Retrieving the calculation parameters
-    let params = await prisma.farms.findFirst({
-      where: {
-        id: farmId
-      },
-      select: {
-        unity_amount: true,
-        unity_price: true,
-        engine_type: true,
-      }
-    });
+    }    
 
     prisma.$disconnect();
-
-    // If no params is found we return zero.
-    if(params == undefined || params == null) return results;
 
     let hoursAmount: number = 0;
 
@@ -100,9 +108,8 @@ export class EngineOperation {
     });
 
     // Format and convert the number
-    results.totalAmount = Number((hoursAmount * params.unity_amount).toFixed(2));
-    results.totalPrice  = Number((hoursAmount * params.unity_price * params.unity_amount).toFixed(2));
-    results.engineType  = String(params.engine_type);
+    results.totalAmount = Number((hoursAmount * params!.unity_amount).toFixed(2));
+    results.totalPrice  = Number((hoursAmount * params!.unity_price * params!.unity_amount).toFixed(2));
     results.hoursAmount = hoursAmount;
         
     return results;

@@ -1,6 +1,8 @@
 interface IEngineOperationCalculation {
   totalPrice: number;
   totalAmount: number;
-  engineType: string;
   hoursAmount: number;
+  unityAmount: number;
+  unityPrice: number;
+  engineType: string;
 }
