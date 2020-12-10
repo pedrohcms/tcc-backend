@@ -2,6 +2,11 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
 
+/**
+ * Class responsible for handling CRUD for farm culture
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class FarmCultureController {
   async show(req: Request, res: Response) {
     const prisma = await Database.getInstance();
@@ -36,7 +41,7 @@ class FarmCultureController {
       }
     });
 
-    // CASO O TAMANHO DA COLEÇÃO SEJA MAIOR QUE ZERO QUER DIZER QUE O VALOR JÁ ESTÁ CADASTRADO
+    // IF THE COLLECTION SIZE IS LARGER THAN ZERO, THE VALUE IS ALREADY REGISTERED
     if(farmCulture.length > 0) {
       prisma.$disconnect();
       return res.status(400).json({ "error": res.__("Farm's culture already exists") });

@@ -3,6 +3,11 @@ import { addDays, startOfDay, endOfDay, subHours } from "date-fns";
 import { Measure } from "../classes/Measure";
 import { Database } from "../classes/Database";
 
+/**
+ * Class responsible for handling CRUD for home
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class HomeController {
   async show(req: Request, res: Response) {
     const prisma = await Database.getInstance();

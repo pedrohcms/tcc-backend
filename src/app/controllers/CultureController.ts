@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
 
+/**
+ * Class responsible for handling CRUD for cultures
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class CultureController {
   async store(req: Request, res: Response) {
     const prisma = await Database.getInstance();

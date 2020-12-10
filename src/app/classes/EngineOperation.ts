@@ -1,6 +1,11 @@
 import { differenceInHours } from "date-fns";
 import { Database } from "./Database";
 
+/**
+ * Class responsible for handling engine operations
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 export class EngineOperation {
   private farmId: number;
   private startDateTime: Date;
@@ -14,9 +19,6 @@ export class EngineOperation {
 
   /**
    * Method responsible for creating a new engine operation register in the database
-   * @param farmId number
-   * @param startDateTime Date
-   * @param endDateTime Date
    */
   static async createEngineOperation(farmId: number, startDateTime: Date, endDateTime: Date) {
     const prisma = await Database.getInstance();
@@ -40,9 +42,6 @@ export class EngineOperation {
 
   /**
    * Method responsible for calculating the amount of resources consumed by the engine and the total price of that
-   * @param farmId number
-   * @param startDateTime Date
-   * @param endDateTime Date
    */
   static async calculateEngineOperation(farmId: number, startDateTime: Date, endDateTime: Date) {
     const prisma = await Database.getInstance();

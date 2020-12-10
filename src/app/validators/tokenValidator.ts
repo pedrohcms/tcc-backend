@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../utils/jwt";
 
 /**
- * MIDDLEWARE RESPONSIBLE FOR VALIDATING JWT
+ * Middleware responsible for validating JWT
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
  */
 export function tokenValidator(
   req: Request,

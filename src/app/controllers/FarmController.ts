@@ -5,7 +5,8 @@ import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling farm CRUD operations
- * @class FarmController
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
  */
 class FarmController {
   async index(req: Request, res: Response) {

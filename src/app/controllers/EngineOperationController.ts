@@ -2,6 +2,11 @@ import { Request, Response } from 'express';
 import { Database } from '../classes/Database';
 import { EngineOperation } from '../classes/EngineOperation';
 
+/**
+ * Class responsible for handling CRUD for engine operation
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class EngineOperationController {
   async show(req: Request, res: Response) {
     const { farmId, startDateTime, endDateTime } = req.query;

@@ -5,7 +5,6 @@ import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling password reset operations
- * @class ResetPasswordController
  *
  * @author Pedro Henrique Correa Mota da Silva
  */
