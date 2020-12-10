@@ -8,8 +8,6 @@ import { Database } from "../classes/Database";
 /**
  * Class responsible for handling User CRUD
  * 
- * @class UserController
- *
  * @author Pedro Henrique Correa Mota da Silva
  */
 class UserController {

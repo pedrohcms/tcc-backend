@@ -1,6 +1,11 @@
 import { startOfDay } from "date-fns";
 import { Database } from "./Database";
 
+/**
+ * Class responsible for handling meaures
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 export class Measure {
   private sector: string | null;
   private idealMoisture: number | null;

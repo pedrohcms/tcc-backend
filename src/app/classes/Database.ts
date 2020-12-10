@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 
 /**
- * Classe responsável por retornar instâncias do banco de dados e executar operações de inicialização do mesmo
+ * Class responsible for returning instances of the database and performing database startup operations
  * 
  * @author Pedro Henrique Correa Mota da Silva
  */
 export class Database {
   
   /**
-   * Método responsável por retornar uma instância do Prisma
+   * Method responsible for returning an instance of Prisma
    */
   static async getInstance(): Promise<PrismaClient> {
     const prisma = new PrismaClient();
@@ -19,8 +19,7 @@ export class Database {
   }
 
   /**
-   * Método responsável por setar a timezone do banco de dados
-   * @param prisma PrismaClient
+   * Method responsible for setting the database timezone
    */
   static async initTimezone(prisma: PrismaClient) {
     await prisma.$executeRaw("SET TIMEZONE=-3");

@@ -1,6 +1,10 @@
 import { Database } from "../classes/Database";
 
-// GIVEN A USER ID RETURN TRUE IF THE USER HAS THE RIGHT PROFILE OR FALSE IF
+/**
+ * Given a user id, return true if the user has the correct profile or false if not
+ *
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 export async function profileValidator(
   userId: number,
   requiredProfile: number

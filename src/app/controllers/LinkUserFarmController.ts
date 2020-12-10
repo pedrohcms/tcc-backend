@@ -3,6 +3,11 @@ import { Database } from "../classes/Database";
 import { profileValidator } from "../validators/profileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 
+/**
+ * Class responsible for handling CRUD for link user farm
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class LinkUserFarmController {
   async index(req: Request, res: Response) {
     const prisma = await Database.getInstance();

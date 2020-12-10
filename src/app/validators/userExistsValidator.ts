@@ -1,5 +1,10 @@
 import { Database } from "../classes/Database";
 
+/**
+ * Verify if a user exists using his id or email
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 export async function userExistsValidator(id: string) {
   const re = RegExp("[a-zA-Z]+");
 

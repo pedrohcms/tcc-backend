@@ -5,6 +5,8 @@ import { Measure } from "../classes/Measure";
 
 /**
  * Class responsible for handling CRUD for measurement data
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
  */
 class MeasurementController {
   async index(req: Request, res: Response) {

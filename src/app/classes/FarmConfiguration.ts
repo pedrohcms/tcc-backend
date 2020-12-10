@@ -1,5 +1,10 @@
 import { Database } from "./Database";
 
+/**
+ * Class responsible for handling farm configuration
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 export class FarmConfiguration {
   private engineType: string;
   private unityAmount: number;
@@ -13,7 +18,6 @@ export class FarmConfiguration {
   
   /**
    * Method responsible for getting the configuration values for a given farm
-   * @param farmId number
    */
   static async getFarmConfiguration(farmId: number) {
     const prisma = await Database.getInstance();
@@ -36,10 +40,6 @@ export class FarmConfiguration {
 
   /**
    * Method responsible for updating the farm configuration values
-   * @param farmId number
-   * @param engineType string
-   * @param unityAmount number
-   * @param unityPrice number
    */
   static async updateFarmConfiguration(farmId: number, engineType: string, unityAmount: number, unityPrice: number) {
     const prisma = await Database.getInstance();

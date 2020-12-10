@@ -6,7 +6,6 @@ import { Database } from "../classes/Database";
 
 /**
  * Class responsible for handling Login operation
- * @class SessionController
  *
  * @author Pedro Henrique Correa Mota da Silva
  */

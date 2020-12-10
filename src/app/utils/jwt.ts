@@ -28,6 +28,11 @@ export function generateToken(payload: string) {
   return token;
 }
 
+/**
+ * Verify a token, using de APP_SECRET enviroment variable
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 export function verifyToken(
   token: string
 ): TokenExpiredError | JsonWebTokenError | NotBeforeError | object {

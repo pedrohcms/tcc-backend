@@ -2,6 +2,11 @@ import { Request, Response } from 'express';
 import { Database } from '../classes/Database';
 import { FarmConfiguration } from '../classes/FarmConfiguration';
 
+/**
+ * Class responsible for handling CRUD for farm configuration
+ * 
+ * @author Pedro Henrique Correa Mota da Silva
+ */
 class FarmConfigurationController {
   async show(req: Request, res: Response) {
     const farmId = Number(req.params.id);
