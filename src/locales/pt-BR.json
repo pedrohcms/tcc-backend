@@ -9,5 +9,6 @@
 	"Farm's culture already exists": "A cultura da fazenda já existe",
 	"Farm's culture not found": "Cultura da fazenda não encontrada",
 	"The value of the unityAmount field must be greater than zero": "O valor do campo unityAmount deve ser maior que zero",
-	"The value of the unityPrice field must be greater than zero": "O valor do campo unityPrice deve ser maior que zero"
+	"The value of the unityPrice field must be greater than zero": "O valor do campo unityPrice deve ser maior que zero",
+	"Profile not found": "Permissão não encontrada"
 }

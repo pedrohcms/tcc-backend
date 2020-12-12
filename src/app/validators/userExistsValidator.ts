@@ -24,9 +24,9 @@ export async function userExistsValidator(id: string) {
         id: Number(id),
       },
     });
-  }
+  } 
 
   prisma.$disconnect();
-
+  
   return user;
 }
