@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { profileValidator } from "../validators/profileValidator";
+import { userProfileValidator } from "../validators/userProfileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 import { Database } from "../classes/Database";
 
@@ -56,8 +56,8 @@ class FarmController {
       });
     }
 
-    // CHECKING IF USER HAS PERMISSION
-    if (!(await profileValidator(user.id, 3))) {
+    // CHECKING IF USER HAS PROFILE
+    if (!(await userProfileValidator(user.id, 3))) {
       return res.sendStatus(403);
     }
 

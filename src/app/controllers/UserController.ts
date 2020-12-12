@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import uniqueEmailValidator from "../utils/uniqueEmailValidator";
 import hash from "../utils/encryption";
-import { profileValidator } from "../validators/profileValidator";
+import { userProfileValidator } from "../validators/userProfileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 import { Database } from "../classes/Database";
 
@@ -32,8 +32,8 @@ class UserController {
 
     const { user_id, name, email, password } = req.body;
 
-    // CHECKING IF USER HAS PERMISSION
-    if (!(await profileValidator(Number(user_id), 3))) {
+    // CHECKING IF USER HAS PROFILE
+    if (!(await userProfileValidator(Number(user_id), 3))) {
       return res.sendStatus(403);
     }
 
@@ -69,8 +69,8 @@ class UserController {
       });
     }
 
-    // CHECKING IF USER HAS PERMISSION
-    if (!(await profileValidator(Number(req.body.user_id), 3))) {
+    // CHECKING IF USER HAS PROFILE
+    if (!(await userProfileValidator(Number(req.body.user_id), 3))) {
       return res.sendStatus(403);
     }
 

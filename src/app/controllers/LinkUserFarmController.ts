@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
-import { profileValidator } from "../validators/profileValidator";
+import { userProfileValidator } from "../validators/userProfileValidator";
 import { userExistsValidator } from "../validators/userExistsValidator";
 
 /**
@@ -49,8 +49,8 @@ class LinkUserFarmController {
 
     const { user_id, email, address } = req.body;
 
-    // CHECKING IF USER HAS PERMISSION
-    if (!(await profileValidator(Number(user_id), 2)))
+    // CHECKING IF USER HAS PROFILE
+    if (!(await userProfileValidator(Number(user_id), 2)))
       return res.sendStatus(403);
 
     const user = await userExistsValidator(email);

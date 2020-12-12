@@ -1,30 +1,24 @@
-import { Database } from "../classes/Database";
+import { celebrate, Joi, Segments } from "celebrate";
 
-/**
- * Given a user id, return true if the user has the correct profile or false if not
- *
- * @author Pedro Henrique Correa Mota da Silva
- */
-export async function profileValidator(
-  userId: number,
-  requiredProfile: number
-) {
-  const prisma = await Database.getInstance();
-
-  const user = await prisma.users.findOne({
-    where: {
-      id: userId,
-    },
-    select: {
-      profile_id: true,
-    },
-  });
-
-  prisma.$disconnect();
-
-  if (requiredProfile > (user?.profile_id ?? 1)) {
-    return false;
+export const profileIndexValidator = celebrate(
+  {
+    [Segments.QUERY]: Joi.object().keys({
+      email: Joi.string().required(),
+    }),
+  },
+  {
+    allowUnknown: true,
   }
+);
 
-  return true;
-}
+export const profileUpdateValidator = celebrate(
+  {
+    [Segments.BODY]: Joi.object().keys({
+      userId: Joi.number().required(),
+      profileId: Joi.number().required()
+    }),
+  },
+  {
+    allowUnknown: true,
+  }
+);

@@ -10,6 +10,7 @@ import CultureController from "../app/controllers/CultureController";
 import FarmCultureController from "../app/controllers/FarmCultureController";
 import FarmConfigurationController from "../app/controllers/FarmConfigurationController";
 import EngineOperationController from "../app/controllers/EngineOperationController";
+import ProfileController from "../app/controllers/ProfileController";
 
 import { idValidator } from "../app/validators/idValidator";
 import { userValidator } from "../app/validators/userValidator";
@@ -30,6 +31,7 @@ import {
 } from "../app/validators/measurementValidator";
 import { farmConfigurationValidator } from "../app/validators/farmConfigurationValidator";
 import { engineOperationStoreValidator } from "../app/validators/engineOperationValidator";
+import { profileIndexValidator, profileUpdateValidator } from "../app/validators/profileValidator";
 
 import { errors } from "../app/utils/customErrorFunction";
 
@@ -179,6 +181,21 @@ v1Routes.post(
   tokenValidator,
   engineOperationStoreValidator,
   EngineOperationController.store.bind(EngineOperationController)
+);
+
+// Routes for Permission
+v1Routes.get(
+  "/profiles", 
+  tokenValidator,
+  profileIndexValidator,
+  ProfileController.index.bind(ProfileController)
+);
+
+v1Routes.put(
+  "/profiles", 
+  tokenValidator,
+  profileUpdateValidator,
+  ProfileController.update.bind(ProfileController)
 );
 
 v1Routes.use(errors);

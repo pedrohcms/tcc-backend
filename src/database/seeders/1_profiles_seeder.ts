@@ -6,7 +6,7 @@ export async function seed(knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex("profiles").insert([
-    { profile_name: "Colaborar" },
+    { profile_name: "Colaborador" },
     { profile_name: "Administrador de Fazenda" },
     { profile_name: "Administrador de Sistema" },
   ]);
