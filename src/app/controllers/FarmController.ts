@@ -81,6 +81,21 @@ class FarmController {
       },
     });
 
+    await prisma.user_farm.create({
+      data: {
+        farms: {
+          connect: {
+            id: farm.id,
+          }
+        },
+        users: {
+          connect: {
+            id: user.id
+          }
+        }
+      }
+    });
+
     prisma.$disconnect();
 
     return res.status(201).json(farm);
