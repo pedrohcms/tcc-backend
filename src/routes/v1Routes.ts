@@ -170,15 +170,13 @@ v1Routes.put(
 
 // Routes for EngineOperation
 v1Routes.get(
-  "/engine_operation", 
-  tokenValidator, 
+  "/engine_operation",  
   engineOperationStoreValidator, 
   EngineOperationController.show.bind(EngineOperationController)
 );
 
 v1Routes.post(
   "/engine_operation",
-  tokenValidator,
   engineOperationStoreValidator,
   EngineOperationController.store.bind(EngineOperationController)
 );

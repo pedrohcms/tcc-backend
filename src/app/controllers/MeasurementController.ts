@@ -1,4 +1,5 @@
 import { measurementsCreateInput } from "@prisma/client";
+import { endOfDay, startOfDay } from "date-fns";
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
 import { Measure } from "../classes/Measure";
@@ -29,7 +30,14 @@ class MeasurementController {
     startDate = String(startDate);
     endDate = String(endDate);
 
-    let measurements = await Measure.getMeasures(farmId, new Date(startDate), new Date(endDate));
+    let startDateTime = new Date(startDate);
+    let endDateTime = new Date(endDate);
+
+    // SETTING UP THE START OF THE DAY AND THE END OF THE DAY
+    startDateTime = startOfDay(startDateTime);
+    endDateTime = endOfDay(endDateTime); 
+
+    let measurements = await Measure.getMeasures(farmId, startDateTime, endDateTime);
 
     prisma.$disconnect();
 
