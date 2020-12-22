@@ -102,7 +102,7 @@ export class EngineOperation {
     let hoursAmount: number = 0;
 
     // Calculate the total amount of hours the engine operated
-    engineOperations.forEach((item) => {      
+    engineOperations.forEach((item: IDateTimeInterval) => {      
       hoursAmount += differenceInHours(item.end_date_time, item.start_date_time);
     });
 
@@ -113,4 +113,9 @@ export class EngineOperation {
         
     return results;
   }
+}
+
+interface IDateTimeInterval {
+  start_date_time: Date;
+  end_date_time: Date;
 }

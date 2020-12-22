@@ -1,5 +1,6 @@
 import { startOfDay } from "date-fns";
 import { Database } from "./Database";
+import { IMeasureItem } from '../interfaces/IMeasureItem';
 
 /**
  * Class responsible for handling meaures
@@ -61,7 +62,7 @@ export class Measure {
 
     prisma.$disconnect();
 
-    measures.forEach(measure => {
+    measures.forEach((measure: IMeasureItem) => {
       measure.measurements = measure.measurements.filter(element => {
         if(element.created_at >= startDate && element.created_at <= endDate)
           return true;
@@ -70,7 +71,7 @@ export class Measure {
 
     let convertedMeasures: Array<Measure> = [];
     
-    measures.forEach(measure => {
+    measures.forEach((measure: IMeasureItem) => {
       convertedMeasures.push(new Measure({ sector: measure.sector, culture: measure.cultures.name, ideal_moisture: measure.cultures.ideal_moisture, measures: measure.measurements }));
     });    
     

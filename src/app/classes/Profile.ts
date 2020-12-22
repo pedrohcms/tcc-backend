@@ -1,3 +1,4 @@
+import { IProfile } from "../interfaces/IProfile";
 import { Database } from "./Database";
 
 export class Profile {
@@ -51,7 +52,7 @@ export class Profile {
 
     const returnedProfiles: Profile[] = [];
 
-    profiles.map((profile) => {
+    profiles.map((profile: IProfile) => {
       returnedProfiles.push(new Profile(profile.id, profile.profile_name));
     });
 
