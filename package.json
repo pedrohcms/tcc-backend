@@ -7,6 +7,7 @@
   "author": "pedrohcms",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "dev": "tsnd --respawn --transpile-only --ignore-watch ./node_modules src/index.ts"
   },
   "dependencies": {
