@@ -1,4 +1,3 @@
-import { measurementsCreateInput } from "@prisma/client";
 import { endOfDay, startOfDay } from "date-fns";
 import { Request, Response } from "express";
 import { Database } from "../classes/Database";
@@ -68,22 +67,16 @@ class MeasurementController {
       return res.status(400).json({ error: res.__("Farm not found") });
     }
 
-    const data: measurementsCreateInput = {
-      water_amount: waterAmount,
-      moisture: moisture,
-      farm_culture: {
-        connect: {
-          id: farmCultureId
-        }
-      }
-    };
-
-    if (createdAt != undefined) {
-      data.created_at = createdAt;
-    }
-
     const measurement = await prisma.measurements.create({
-      data,
+      data: {
+        water_amount: waterAmount,
+        moisture: moisture,
+        farm_culture: {
+          connect: {
+            id: farmCultureId
+          }
+        }
+      },
       select: {
         id: true,
         farm_culture_id: true,
