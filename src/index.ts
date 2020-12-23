@@ -3,4 +3,4 @@ config();
 
 import express from "./App";
 
-express.listen(3333);
+express.listen(process.env.PORT || 3333);
