@@ -39,10 +39,10 @@ module.exports = {
     client: process.env.DB_CLIENT,
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: path.resolve(__dirname, "build", "database", "migrations"),
+      directory: path.resolve(__dirname, "build", "src", "database", "migrations"),
     },
     seeds: {
-      directory: path.resolve(__dirname, "build", "database", "seeders"),
+      directory: path.resolve(__dirname, "build", "src", "database", "seeders"),
     },
   }
 };
