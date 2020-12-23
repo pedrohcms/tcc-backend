@@ -2,7 +2,6 @@
 require("dotenv").config();
 
 if(process.env.NODE_ENV == 'development') {
-  console.log('aaaaaa');
   require("ts-node/register");
 }
 
