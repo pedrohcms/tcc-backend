@@ -1,6 +1,11 @@
 // Update with your config settings.
 require("dotenv").config();
-require("ts-node/register");
+
+if(process.env.NODE_ENV == 'development') {
+  console.log('aaaaaa');
+  require("ts-node/register");
+}
+
 const path = require("path");
 
 module.exports = {
@@ -35,10 +40,10 @@ module.exports = {
     client: process.env.DB_CLIENT,
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: path.resolve(__dirname, "src", "database", "migrations"),
+      directory: path.resolve(__dirname, "build", "database", "migrations"),
     },
     seeds: {
-      directory: path.resolve(__dirname, "src", "database", "seeders"),
+      directory: path.resolve(__dirname, "build", "database", "seeders"),
     },
   }
 };
