@@ -74,7 +74,7 @@ try {
   folderPath = path.resolve(__dirname, "..", "config", "schema.prisma");
 
   childProcess.execSync(
-    `npx prisma introspect --schema ${folderPath}`,
+    `npx prisma introspect --schema=${folderPath}`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(error);
@@ -102,7 +102,7 @@ try {
   console.log("Generating Prisma Client");
 
   childProcess.execSync(
-    `npx prisma generate --schema ${folderPath}`,
+    `npx prisma generate --schema=${folderPath}`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(error);
@@ -128,7 +128,7 @@ try {
 // Rollback migrations in case of error.
 function rollbackMigrations() {
   try {
-    console.log("Rolling back currrent migrations.");
+    console.log("Rolling back current migrations.");
 
     childProcess.execSync(
       "npx knex migrate:rollback",
