@@ -72,7 +72,7 @@ try {
   console.log("Running prisma introspect");
 
   folderPath = path.resolve(__dirname, "..", "config", "schema.prisma");
-
+  console.log(`npx prisma introspect --schema=${folderPath}`);
   childProcess.execSync(
     `npx prisma introspect --schema=${folderPath}`,
     (error, stdout, stderr) => {
