@@ -7,8 +7,7 @@
   "author": "pedrohcms",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "migrate": "node ./src/utils/update_database.js migrate:latest",
+    "build": "tsc && prisma introspect",
     "help": "prisma --help",
     "dev": "tsnd --respawn --transpile-only --ignore-watch ./node_modules src/index.ts"
   },
