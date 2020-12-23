@@ -13,9 +13,9 @@ if (args.length == 0) {
 
 // Updating database with migrations
 try {
-  console.log(`Running command: npx knex ${args}`);
+  console.log(`Running command: knex ${args}`);
 
-  childProcess.execSync(`npx knex ${args}`, (error, stdout, stderr) => {
+  childProcess.execSync(`knex ${args}`, (error, stdout, stderr) => {
     if (error) {
       console.log(error);
       return;
@@ -72,7 +72,7 @@ try {
   console.log("Running prisma introspect");
 
   childProcess.execSync(
-    `npx prisma introspect`,
+    `prisma introspect`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(error);
@@ -100,7 +100,7 @@ try {
   console.log("Generating Prisma Client");
 
   childProcess.execSync(
-    `npx prisma generate`,
+    `prisma generate`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(error);
@@ -129,7 +129,7 @@ function rollbackMigrations() {
     console.log("Rolling back current migrations.");
 
     childProcess.execSync(
-      "npx knex migrate:rollback",
+      "knex migrate:rollback",
       (error, stdout, stderr) => {
         if (error) {
           console.log(error);
