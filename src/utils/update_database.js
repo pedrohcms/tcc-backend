@@ -10,7 +10,7 @@ if (args.length == 0) {
 
   return;
 }
-
+console.log('Dirname:' + __dirname);
 // Updating database with migrations
 try {
   console.log(`Running command: npx knex ${args}`);
