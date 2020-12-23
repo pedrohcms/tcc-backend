@@ -7,7 +7,7 @@
   "author": "pedrohcms",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && prisma generate --schema=./src/config/schema.prisma",
+    "build": "tsc",
     "dev": "tsnd --respawn --transpile-only --ignore-watch ./node_modules src/index.ts"
   },
   "dependencies": {

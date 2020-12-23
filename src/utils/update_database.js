@@ -71,10 +71,8 @@ try {
 try {
   console.log("Running prisma introspect");
 
-  folderPath = path.resolve(__dirname, "..", "config", "schema.prisma");
-
   childProcess.execSync(
-    `npx prisma introspect --schema=${folderPath}`,
+    `npx prisma introspect`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(error);
@@ -102,7 +100,7 @@ try {
   console.log("Generating Prisma Client");
 
   childProcess.execSync(
-    `npx prisma generate --schema=${folderPath}`,
+    `npx prisma generate`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(error);
