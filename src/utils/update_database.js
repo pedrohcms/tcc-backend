@@ -10,7 +10,7 @@ if (args.length == 0) {
 
   return;
 }
-console.log('Dirname:' + __dirname);
+
 // Updating database with migrations
 try {
   console.log(`Running command: npx knex ${args}`);
@@ -72,7 +72,7 @@ try {
   console.log("Running prisma introspect");
 
   folderPath = path.resolve(__dirname, "..", "config", "schema.prisma");
-  console.log(`npx prisma introspect --schema=${folderPath}`);
+
   childProcess.execSync(
     `npx prisma introspect --schema=${folderPath}`,
     (error, stdout, stderr) => {
