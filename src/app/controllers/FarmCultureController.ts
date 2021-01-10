@@ -13,7 +13,7 @@ class FarmCultureController {
 
     const id = Number(req.params.id);
 
-    const farmCulture = await prisma.farm_culture.findOne({
+    const farmCulture = await prisma.farm_culture.findUnique({
       where: {
         id
       }
@@ -73,7 +73,7 @@ class FarmCultureController {
 
     const id = Number(req.params.id);
 
-    const culture = await prisma.farm_culture.findOne({
+    const culture = await prisma.farm_culture.findUnique({
       where: {
         id
       }

@@ -14,7 +14,7 @@ class HomeController {
     
     const farmId = Number(req.params.id);
 
-    const farm = await prisma.farms.findOne({
+    const farm = await prisma.farms.findUnique({
       where: {
         id: farmId,
       },

@@ -14,7 +14,7 @@ class LinkUserFarmController {
 
     const farm_id = Number(req.query.farm_id);
 
-    const farm = await prisma.farms.findOne({
+    const farm = await prisma.farms.findUnique({
       where: {
         id: farm_id,
       },
@@ -59,7 +59,7 @@ class LinkUserFarmController {
     if (!user) return res.status(400).json({ error: res.__("User not found") });
 
     // SEARCHING FOR FARM AND TRYING TO BRING THE USER TOO
-    const farm = await prisma.farms.findOne({
+    const farm = await prisma.farms.findUnique({
       where: {
         address,
       },
@@ -112,7 +112,7 @@ class LinkUserFarmController {
 
     if (!user) return res.status(400).json({ error: res.__("User not found") });
 
-    const farm = await prisma.farms.findOne({
+    const farm = await prisma.farms.findUnique({
       where: {
         address,
       },

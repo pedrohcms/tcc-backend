@@ -8,7 +8,7 @@ import { Database } from "../classes/Database";
 export default async (email: string) => {
   const prisma = await Database.getInstance();
 
-  const found = await prisma.users.findOne({
+  const found = await prisma.users.findUnique({
     where: {
       email,
     },

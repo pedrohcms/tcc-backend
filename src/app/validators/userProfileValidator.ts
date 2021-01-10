@@ -11,7 +11,7 @@ export async function userProfileValidator(
 ) {
   const prisma = await Database.getInstance();
 
-  const user = await prisma.users.findOne({
+  const user = await prisma.users.findUnique({
     where: {
       id: userId,
     },

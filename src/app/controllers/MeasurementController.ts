@@ -15,7 +15,7 @@ class MeasurementController {
     const farmId = Number(req.query.farmId);
     let { startDate, endDate, queryType } = req.query;
 
-    const farm = await prisma.farms.findOne({
+    const farm = await prisma.farms.findUnique({
       where: {
         id: farmId,
       },
@@ -55,7 +55,7 @@ class MeasurementController {
 
     const { farmCultureId, waterAmount, moisture, createdAt } = req.body;
 
-    const farmCulture = await prisma.farm_culture.findOne({
+    const farmCulture = await prisma.farm_culture.findUnique({
       where: {
         id: farmCultureId
       }

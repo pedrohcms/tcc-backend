@@ -62,7 +62,7 @@ class FarmController {
     }
 
     // CHECKING IF ADDRESS ALREADY EXISTS
-    let farm = await prisma.farms.findOne({
+    let farm = await prisma.farms.findUnique({
       where: {
         address,
       },

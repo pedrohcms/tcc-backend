@@ -17,7 +17,7 @@ export class Profile {
   static async getProfile(profileId: number) {
     const prisma = await Database.getInstance();
 
-    const profile = await prisma.profiles.findOne({
+    const profile = await prisma.profiles.findUnique({
       where: {
         id: profileId
       },

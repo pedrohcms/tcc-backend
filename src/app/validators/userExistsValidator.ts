@@ -13,13 +13,13 @@ export async function userExistsValidator(id: string) {
   let user;
 
   if (re.test(id)) {
-    user = await prisma.users.findOne({
+    user = await prisma.users.findUnique({
       where: {
         email: id,
       },
     });
   } else {
-    user = await prisma.users.findOne({
+    user = await prisma.users.findUnique({
       where: {
         id: Number(id),
       },

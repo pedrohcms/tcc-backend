@@ -34,7 +34,7 @@ class CultureController {
 
     const id = Number(req.params.id);
 
-    const culture = await prisma.cultures.findOne({
+    const culture = await prisma.cultures.findUnique({
       where: {
         id,
       },
@@ -59,7 +59,7 @@ class CultureController {
 
     const id = Number(req.params.id);
 
-    const culture = await prisma.cultures.findOne({
+    const culture = await prisma.cultures.findUnique({
       where: {
         id
       }
